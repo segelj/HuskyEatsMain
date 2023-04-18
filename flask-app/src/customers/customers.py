@@ -149,8 +149,10 @@ def create_customer_order(custID):
     return "Success"
 
 # update the tip amount of a particular order by a specified customer
-@customers.route('/orders/<custID>/<orderID>/<tip>', methods=['PUT'])
-def update_customer_order_tip(custID, orderID, tip):
+@customers.route('/orders/<custID>/<orderID>/tip', methods=['PUT'])
+def update_customer_order_tip(custID, orderID):
+    req_data = request.get_json()
+    tip = req_data['tip']
     update_stmt = 'UPDATE orders SET tip = {0} WHERE customer_id = {1} and order_id = {2}'.format(
         tip, custID, orderID)
 
@@ -161,8 +163,10 @@ def update_customer_order_tip(custID, orderID, tip):
     return "Success"
 
 # update the restaurant rating of a particular order by a specified customer
-@customers.route('/orders/<custID>/<orderID>/<resRating>', methods=['PUT'])
-def update_customer_order_restaurant_rating(custID, orderID, resRating):
+@customers.route('/orders/<custID>/<orderID>/resRating', methods=['PUT'])
+def update_customer_order_restaurant_rating(custID, orderID):
+    req_data = request.get_json()
+    resRating = req_data['res_rating']
     update_stmt = 'UPDATE orders SET res_rating = {0} WHERE customer_id = {1} and order_id = {2}'.format(
         resRating, custID, orderID)
 
@@ -173,8 +177,10 @@ def update_customer_order_restaurant_rating(custID, orderID, resRating):
     return "Success"
 
 # update the driver rating of a particular order by a specified customer
-@customers.route('/orders/<custID>/<orderID>/<driverRating>', methods=['PUT'])
-def update_customer_order_driver_rating(custID, orderID, driverRating):
+@customers.route('/orders/<custID>/<orderID>/driverRating', methods=['PUT'])
+def update_customer_order_driver_rating(custID, orderID):
+    req_data = request.get_json()
+    driverRating = req_data['driver_rating']
     update_stmt = 'UPDATE orders SET driver_rating = {0} WHERE customer_id = {1} and order_id = {2}'.format(
         driverRating, custID, orderID)
 
@@ -196,6 +202,35 @@ def delete_customer_order(custID, orderID):
 
     return "Success"
 
+# Create a restaurant rating for a particular order
+@customers.route('/order/<orderID>/resRating', methods=['POST'])
+def create_restaurant_rating(orderID):
+    req_data = request.get_json()
+    stars = req_data['stars']
+
+    insert_stmt = 'INSERT INTO ResRating (restaurant_id, stars) VALUES ('
+    insert_stmt += '(SELECT restaurant_id FROM orders WHERE order_id = ' + str(orderID) + '), ' + str(stars) + ')'
+
+    cursor = db.get_db().cursor()
+    cursor.execute(insert_stmt)
+    db.get_db().commit()
+
+    return "Success"
+
+# Create a driver rating for a particular order
+@customers.route('/order/<orderID>/driverRating', methods=['POST'])
+def create_driver_rating(orderID):
+    req_data = request.get_json()
+    stars = req_data['stars']
+
+    insert_stmt = 'INSERT INTO DriverRating (driver_id, stars) VALUES ('
+    insert_stmt += '(SELECT driver_id FROM orders WHERE order_id = ' + str(orderID) + '), ' + str(stars) + ')'
+
+    cursor = db.get_db().cursor()
+    cursor.execute(insert_stmt)
+    db.get_db().commit()
+
+    return "Success"
 
 # Get all buildings on campus
 
