@@ -10,13 +10,18 @@ def get_restaurants():
     # get a cursor object from the database
     cursor = db.get_db().cursor()
 
+    query = """SELECT restaurant_id as 'id', Restaurant.name as 'name', RC.name as 'category', B.name as 'building' FROM Restaurant
+    JOIN ResCategory RC on RC.category_id = Restaurant.category_id
+    JOIN Building B on B.building_id = Restaurant.building_id
+    ORDER BY restaurant_id"""
+
     # use cursor to query the database for a list of products
-    cursor.execute('SELECT name FROM Restaurant')
+    cursor.execute(query)
 
     # grab the column headers from the returned data
     column_headers = [x[0] for x in cursor.description]
 
-    # create an empty dictionary object to use in 
+    # create an empty dictionary object to use in
     # putting column headers together with data
     json_data = []
 
@@ -24,18 +29,18 @@ def get_restaurants():
     theData = cursor.fetchall()
 
     # for each of the rows, zip the data elements together with
-    # the column headers. 
+    # the column headers.
     for row in theData:
         json_data.append(dict(zip(column_headers, row)))
 
     return jsonify(json_data)
 
-
 # Return all info for a particular restaurant
 @restaurants.route('/restaurants/<restaurant_id>', methods=['GET'])
 def get_customer(restaurant_id):
     cursor = db.get_db().cursor()
-    cursor.execute('select * from Restaurant where id = {0}'.format(restaurant_id))
+    cursor.execute(
+        'select * from Restaurant where id = {0}'.format(restaurant_id))
     row_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()
@@ -74,7 +79,7 @@ def add_new_restaurant():
 
     return "Success"
 
-# Update info for a particular restaurant pertaining to its name, location, menu, and hours 
+# Update info for a particular restaurant pertaining to its name, location, menu, and hours
 @restaurants.route('/restaurants/<restaurant_id>', methods=['PUT'])
 def update_restaurant(restaurant_id):
     the_data = request.json
@@ -87,10 +92,10 @@ def update_restaurant(restaurant_id):
     menu = the_data['menu']
     location = the_data['location']
 
-    query = 'UPDATE Restaurant SET name = "' + name 
-    + '", open_time = "' + open_time + '", close_time = "' 
-    + close_time + '", category_id = ' + category_id 
-    + ', menu = "' + menu + '", location = "' 
+    query = 'UPDATE Restaurant SET name = "' + name
+    + '", open_time = "' + open_time + '", close_time = "'
+    + close_time + '", category_id = ' + category_id
+    + ', menu = "' + menu + '", location = "'
     + location + '" WHERE restaurant_id = ' + str(restaurant_id)
     current_app.logger.info(query)
 
@@ -100,7 +105,7 @@ def update_restaurant(restaurant_id):
 
     return "Success"
 
-# Deletes a restaurant 
+# Deletes a restaurant
 @restaurants.route('/restaurants/<restaurant_id>', methods=['DELETE'])
 def delete_restaurant(restaurant_id):
     query = "DELETE FROM Restaurant WHERE restaurant_id = %s"
@@ -110,8 +115,7 @@ def delete_restaurant(restaurant_id):
 
     return "Success"
 
-
-# Adds a menu to a restaurant 
+# Adds a menu to a restaurant
 @restaurants.route('/restaurant/<int:restaurant_id>/menu', methods=['POST'])
 def add_menu(restaurant_id):
     the_data = request.json
@@ -132,20 +136,67 @@ def add_menu(restaurant_id):
 
     return "Success"
 
-# Gets a particular menu from a particular restaurant 
-@restaurants.route('/restaurant/<restaurant_id>/menu/<menu_id>', methods=['GET'])
-def get_menu(restaurant_id, menu_id):
+# Gets the menus for a restaurant
+@restaurants.route('/restaurant/<restaurant_id>/menu', methods=['GET'])
+def get_menus(restaurant_id):
+    # get a cursor object from the database
     cursor = db.get_db().cursor()
-    cursor.execute('SELECT * FROM Menu WHERE restaurant_id = %s AND menu_id = %s', (restaurant_id, menu_id))
-    row_headers = [x[0] for x in cursor.description]
+
+    query = f"""SELECT Menu.menu_id, Menu.name FROM Menu
+    JOIN Restaurant R on R.restaurant_id = Menu.restaurant_id
+    WHERE R.restaurant_id = {restaurant_id}"""
+
+    # use cursor to query the database for a list of products
+    cursor.execute(query)
+
+    # grab the column headers from the returned data
+    column_headers = [x[0] for x in cursor.description]
+
+    # create an empty dictionary object to use in
+    # putting column headers together with data
     json_data = []
+
+    # fetch all the data from the cursor
     theData = cursor.fetchall()
+
+    # for each of the rows, zip the data elements together with
+    # the column headers.
     for row in theData:
-        json_data.append(dict(zip(row_headers, row)))
-    the_response = make_response(jsonify(json_data))
-    the_response.status_code = 200
-    the_response.mimetype = 'application/json'
-    return the_response
+        json_data.append(dict(zip(column_headers, row)))
+
+    return jsonify(json_data)
+
+
+# Gets a list of products from the given restaurant
+@restaurants.route('/restaurant/<restaurant_id>/products', methods=['GET'])
+def get_all_products(restaurant_id):
+    # get a cursor object from the database
+    cursor = db.get_db().cursor()
+
+    query = f"""SELECT product_id, P.name as 'name', description, price, PC.name as 'category' FROM Restaurant
+    JOIN Product P on Restaurant.restaurant_id = P.restaurant_id
+    JOIN ProductCategory PC on P.category_id = PC.category_id
+    WHERE Restaurant.restaurant_id = {restaurant_id}"""
+
+    # use cursor to query the database for a list of products
+    cursor.execute(query)
+
+    # grab the column headers from the returned data
+    column_headers = [x[0] for x in cursor.description]
+
+    # create an empty dictionary object to use in
+    # putting column headers together with data
+    json_data = []
+
+    # fetch all the data from the cursor
+    theData = cursor.fetchall()
+
+    # for each of the rows, zip the data elements together with
+    # the column headers.
+    for row in theData:
+        json_data.append(dict(zip(column_headers, row)))
+
+    return jsonify(json_data)
 
 
 # Updates the name of a particular menu from a particular restaurant
@@ -164,7 +215,7 @@ def update_menu(restaurant_id, menu_id):
     db.get_db().commit()
 
     return "Success"
-
+    
 # Deletes a menu
 @restaurants.route('/restaurants/<restaurant_id>/menu/<menu_id>', methods=['DELETE'])
 def delete_menu(restaurant_id):
@@ -174,3 +225,47 @@ def delete_menu(restaurant_id):
     db.get_db().commit()
 
     return "Success"
+    
+# Add a product to a specified menu at a restaurant 
+@restaurants.route('/restaurants/<restaurant_id>/menus/<menu_id>/product', methods=['POST'])
+def add_product_to_menu(restaurant_id, menu_id):
+    the_data = request.json
+    current_app.logger.info(the_data)
+
+    name = the_data['name']
+    product_id = the_data['product_id']
+    description = the_data['description']
+    price = the_data['price']
+    category_id = the_data['category_id']
+
+    query = 'INSERT INTO Product (name, product_id, restaurant_id, description, price, menu_id, category_id) VALUES ("'
+    query += name + '", '
+    query += str(product_id) + ', '
+    query += str(restaurant_id) + ', "'
+    query += description + '", '
+    query += str(price) + ', '
+    query += str(menu_id) + ', '
+    query += str(category_id) + ')'
+    current_app.logger.info(query)
+
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+    db.get_db().commit()
+
+    return "Success"
+
+# Returns a list of all restaurants that belong to a specific category
+@restaurants.route('/restaurants/<category>', methods=['GET'])
+def get_restaurants_by_category(category):
+    cursor = db.get_db().cursor()
+    query = f"SELECT * FROM Restaurant WHERE category_id = (SELECT category_id FROM Category WHERE name = '{category}')"
+    cursor.execute(query)
+    row_headers = [x[0] for x in cursor.description]
+    json_data = []
+    results = cursor.fetchall()
+    for row in results:
+        json_data.append(dict(zip(row_headers, row)))
+    the_response = make_response(jsonify(json_data))
+    the_response.status_code = 200
+    the_response.mimetype = 'application/json'
+    return the_response
