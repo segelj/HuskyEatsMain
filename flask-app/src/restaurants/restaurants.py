@@ -5,8 +5,6 @@ from src import db
 restaurants = Blueprint('restaurants', __name__)
 
 # Get all the restaurant names from the database
-
-
 @restaurants.route('/restaurants', methods=['GET'])
 def get_restaurants():
     # get a cursor object from the database
@@ -37,7 +35,6 @@ def get_restaurants():
 
     return jsonify(json_data)
 
-
 # Return all info for a particular restaurant
 @restaurants.route('/restaurants/<restaurant_id>', methods=['GET'])
 def get_customer(restaurant_id):
@@ -55,8 +52,6 @@ def get_customer(restaurant_id):
     return the_response
 
 # Add a new restaurant to the database (a new restaurant opens on campus)
-
-
 @restaurants.route('/restaurant', methods=['POST'])
 def add_new_restaurant():
     the_data = request.json
@@ -85,8 +80,6 @@ def add_new_restaurant():
     return "Success"
 
 # Update info for a particular restaurant pertaining to its name, location, menu, and hours
-
-
 @restaurants.route('/restaurants/<restaurant_id>', methods=['PUT'])
 def update_restaurant(restaurant_id):
     the_data = request.json
@@ -113,8 +106,6 @@ def update_restaurant(restaurant_id):
     return "Success"
 
 # Deletes a restaurant
-
-
 @restaurants.route('/restaurants/<restaurant_id>', methods=['DELETE'])
 def delete_restaurant(restaurant_id):
     query = "DELETE FROM Restaurant WHERE restaurant_id = %s"
@@ -123,7 +114,6 @@ def delete_restaurant(restaurant_id):
     db.get_db().commit()
 
     return "Success"
-
 
 # Adds a menu to a restaurant
 @restaurants.route('/restaurant/<int:restaurant_id>/menu', methods=['POST'])
@@ -147,8 +137,6 @@ def add_menu(restaurant_id):
     return "Success"
 
 # Gets the menus for a restaurant
-
-
 @restaurants.route('/restaurant/<restaurant_id>/menu', methods=['GET'])
 def get_menus(restaurant_id):
     # get a cursor object from the database
@@ -228,7 +216,7 @@ def update_menu(restaurant_id, menu_id):
 
     return "Success"
     
-    # Deletes a menu
+# Deletes a menu
 @restaurants.route('/restaurants/<restaurant_id>/menu/<menu_id>', methods=['DELETE'])
 def delete_menu(restaurant_id):
     query = "DELETE FROM Menu WHERE menu_id = %s"
@@ -238,7 +226,7 @@ def delete_menu(restaurant_id):
 
     return "Success"
     
-    # Add a product to a specified menu at a restaurant 
+# Add a product to a specified menu at a restaurant 
 @restaurants.route('/restaurants/<restaurant_id>/menus/<menu_id>/product', methods=['POST'])
 def add_product_to_menu(restaurant_id, menu_id):
     the_data = request.json
