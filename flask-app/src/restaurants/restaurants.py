@@ -227,3 +227,57 @@ def update_menu(restaurant_id, menu_id):
     db.get_db().commit()
 
     return "Success"
+    
+    # Deletes a menu
+@restaurants.route('/restaurants/<restaurant_id>/menu/<menu_id>', methods=['DELETE'])
+def delete_menu(restaurant_id):
+    query = "DELETE FROM Menu WHERE menu_id = %s"
+    cursor = db.get_db().cursor()
+    cursor.execute(query, (restaurant_id,))
+    db.get_db().commit()
+
+    return "Success"
+    
+    # Add a product to a specified menu at a restaurant 
+@restaurants.route('/restaurants/<restaurant_id>/menus/<menu_id>/product', methods=['POST'])
+def add_product_to_menu(restaurant_id, menu_id):
+    the_data = request.json
+    current_app.logger.info(the_data)
+
+    name = the_data['name']
+    product_id = the_data['product_id']
+    description = the_data['description']
+    price = the_data['price']
+    category_id = the_data['category_id']
+
+    query = 'INSERT INTO Product (name, product_id, restaurant_id, description, price, menu_id, category_id) VALUES ("'
+    query += name + '", '
+    query += str(product_id) + ', '
+    query += str(restaurant_id) + ', "'
+    query += description + '", '
+    query += str(price) + ', '
+    query += str(menu_id) + ', '
+    query += str(category_id) + ')'
+    current_app.logger.info(query)
+
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+    db.get_db().commit()
+
+    return "Success"
+
+# Returns a list of all restaurants that belong to a specific category
+@restaurants.route('/restaurants/<category>', methods=['GET'])
+def get_restaurants_by_category(category):
+    cursor = db.get_db().cursor()
+    query = f"SELECT * FROM Restaurant WHERE category_id = (SELECT category_id FROM Category WHERE name = '{category}')"
+    cursor.execute(query)
+    row_headers = [x[0] for x in cursor.description]
+    json_data = []
+    results = cursor.fetchall()
+    for row in results:
+        json_data.append(dict(zip(row_headers, row)))
+    the_response = make_response(jsonify(json_data))
+    the_response.status_code = 200
+    the_response.mimetype = 'application/json'
+    return the_response
