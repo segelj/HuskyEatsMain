@@ -223,6 +223,7 @@ def update_customer_order_driver_rating(custID, orderID, driverRating):
     return "Success"
 
 
+
 # Delete a particular order placed by a specified customer
 
 
@@ -230,6 +231,104 @@ def update_customer_order_driver_rating(custID, orderID, driverRating):
 def delete_customer_order(custID, orderID):
     delete_stmt = 'DELETE FROM orders WHERE customer_id = {0} and order_id = {1}'.format(
         custID, orderID)
+
+    cursor = db.get_db().cursor()
+    cursor.execute(delete_stmt)
+    db.get_db().commit()
+
+    return "Success"
+
+
+# Get all buildings on campus
+
+
+@customers.route('/buildings', methods=['GET'])
+def get_buildings():
+    cursor = db.get_db().cursor()
+    cursor.execute('select * from building')
+    row_headers = [x[0] for x in cursor.description]
+    json_data = []
+    theData = cursor.fetchall()
+    for row in theData:
+        json_data.append(dict(zip(row_headers, row)))
+    the_response = make_response(jsonify(json_data))
+    the_response.status_code = 200
+    the_response.mimetype = 'application/json'
+    return the_response
+
+
+# Create a building location for customer if not already exist
+
+
+@customers.route('/building', methods=['POST'])
+def create_building():
+    req_data = request.get_json()
+    name = req_data['name']
+    coord = req_data['coordinates']
+    st_name = req_data['street_name']
+    zip = req_data['zip']
+    st_num = req_data['street_num']
+    state = req_data['state']
+
+    insert_stmt = 'INSERT INTO building (name, coordinates, street_name, zip, street_num, state) VALUES ("'
+    insert_stmt += name + '", "' + coord + '", "' + st_name + '", ' + \
+        str(zip) + ', ' + str(st_num) + ', "' + state + '")'
+
+    cursor = db.get_db().cursor()
+    cursor.execute(insert_stmt)
+    db.get_db().commit()
+
+    return "Success"
+
+
+# Get building details of a building by its id
+
+
+@customers.route('/buildings/<buildingID>', methods=['GET'])
+def get_building(buildingID):
+    cursor = db.get_db().cursor()
+    cursor.execute(
+        'select * from building where building_id = {0}'.format(buildingID))
+    row_headers = [x[0] for x in cursor.description]
+    json_data = []
+    theData = cursor.fetchall()
+    for row in theData:
+        json_data.append(dict(zip(row_headers, row)))
+    the_response = make_response(jsonify(json_data))
+    the_response.status_code = 200
+    the_response.mimetype = 'application/json'
+    return the_response
+
+
+# Update building details of a particular building
+
+
+@customers.route('/buildings/<buildingID>', methods=['PUT'])
+def update_building(buildingID):
+    req_data = request.get_json()
+    name = req_data['name']
+    coord = req_data['coordinates']
+    st_name = req_data['street_name']
+    zip = req_data['zip']
+    st_num = req_data['street_num']
+    state = req_data['state']
+    
+    update_stmt = 'UPDATE building SET name = {0}, coordinates = {1}, street_name = {2}, zip = {3}, street_num = {4}, state = {5} WHERE building_id = {6}'.format(
+        name, coord, st_name, zip, st_num, state, buildingID)
+
+    cursor = db.get_db().cursor()
+    cursor.execute(update_stmt)
+    db.get_db().commit()
+
+    return "Success"
+
+
+# Delete a particular building
+
+
+@customers.route('/buildings/<buildingID>', methods=['DELETE'])
+def delete_building(buildingID):
+    delete_stmt = 'DELETE FROM building WHERE building_id = {0}'.format(buildingID)
 
     cursor = db.get_db().cursor()
     cursor.execute(delete_stmt)
