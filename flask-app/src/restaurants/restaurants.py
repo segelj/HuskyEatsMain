@@ -164,3 +164,13 @@ def update_menu(restaurant_id, menu_id):
     db.get_db().commit()
 
     return "Success"
+
+# Deletes a menu
+@restaurants.route('/restaurants/<restaurant_id>/menu/<menu_id>', methods=['DELETE'])
+def delete_menu(restaurant_id):
+    query = "DELETE FROM Menu WHERE menu_id = %s"
+    cursor = db.get_db().cursor()
+    cursor.execute(query, (restaurant_id,))
+    db.get_db().commit()
+
+    return "Success"
