@@ -19,8 +19,6 @@ def get_customers():
     return jsonify(json_data)
 
 # Get customer detail for customer with particular custID
-
-
 @customers.route('/customers/<custID>', methods=['GET'])
 def get_customer(custID):
     cursor = db.get_db().cursor()
@@ -37,8 +35,6 @@ def get_customer(custID):
     return the_response
 
 # create a new customer with specified customer detail
-
-
 @customers.route('/customer', methods=['POST'])
 def create_customer():
     req_data = request.get_json()
@@ -57,8 +53,6 @@ def create_customer():
     return "Success"
 
 # update customer detail for customer with particular custID
-
-
 @customers.route('/customers/<custID>', methods=['PUT'])
 def update_customer(custID):
     req_data = request.get_json()
@@ -77,8 +71,6 @@ def update_customer(custID):
     return "Success"
 
 # delete a customer with particular custID
-
-
 @customers.route('/customers/<custID>', methods=['DELETE'])
 def delete_customer(custID):
     delete_stmt = 'DELETE FROM customers WHERE customer_id = {0}'.format(
@@ -91,8 +83,6 @@ def delete_customer(custID):
     return "Success"
 
 # Get all orders placed by a specified customer
-
-
 @customers.route('/orders/<custID>', methods=['GET'])
 def get_customer_orders(custID):
     cursor = db.get_db().cursor()
@@ -109,8 +99,6 @@ def get_customer_orders(custID):
     return the_response
 
 # Delete all orders placed by a specified customer
-
-
 @customers.route('/orders/<custID>', methods=['DELETE'])
 def delete_customer_orders(custID):
     delete_stmt = 'DELETE FROM orders WHERE customer_id = {0}'.format(custID)
@@ -122,8 +110,6 @@ def delete_customer_orders(custID):
     return "Success"
 
 # Get a particular order placed by a specified customer
-
-
 @customers.route('/orders/<custID>/<orderID>', methods=['GET'])
 def get_customer_order(custID, orderID):
     cursor = db.get_db().cursor()
@@ -140,8 +126,6 @@ def get_customer_order(custID, orderID):
     return the_response
 
 # Create a new order placed by a specified customer
-
-
 @customers.route('/order/<custID>', methods=['POST'])
 def create_customer_order(custID):
     req_data = request.get_json()
@@ -207,8 +191,6 @@ def update_customer_order_driver_rating(custID, orderID):
     return "Success"
 
 # Delete a particular order placed by a specified customer
-
-
 @customers.route('/orders/<custID>/<orderID>', methods=['DELETE'])
 def delete_customer_order(custID, orderID):
     delete_stmt = 'DELETE FROM orders WHERE customer_id = {0} and order_id = {1}'.format(
@@ -250,9 +232,8 @@ def create_driver_rating(orderID):
 
     return "Success"
 
+
 # Get all buildings on campus
-
-
 @customers.route('/orders', methods=['GET'])
 def get_orders():
     cursor = db.get_db().cursor()
@@ -270,9 +251,8 @@ def get_orders():
         json_data.append(dict(zip(row_headers, row)))
     return jsonify(json_data)
 
+
 # Create a building location for customer if not already exist
-
-
 @customers.route('/building', methods=['POST'])
 def create_building():
     req_data = request.get_json()
@@ -294,6 +274,7 @@ def create_building():
     return "Success"
 
 
+# Update building details for a specific building
 @customers.route('/buildings/<buildingID>', methods=['PUT'])
 def update_building(buildingID):
     req_data = request.get_json()
@@ -315,8 +296,6 @@ def update_building(buildingID):
 
 
 # Delete a particular building
-
-
 @customers.route('/buildings/<buildingID>', methods=['DELETE'])
 def delete_building(buildingID):
     delete_stmt = 'DELETE FROM building WHERE building_id = {0}'.format(
