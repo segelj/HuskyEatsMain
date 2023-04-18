@@ -221,16 +221,24 @@ def delete_customer_order(custID, orderID):
     return "Success"
 
 # Get all customers from the DB with attributes relevant to the customer
+
+
 @customers.route('/orders', methods=['GET'])
 def get_orders():
     cursor = db.get_db().cursor()
 
     query = """SELECT order_id, date, status, student_id, name, first_name, last_name, subtotal, tip, fee, tax, driver_rating,
-    res_rating as total FROM Orders
+    res_rating FROM Orders
     JOIN Driver D on D.driver_id = Orders.driver_id
     JOIN Restaurant R on Orders.restaurant_id = R.restaurant_id"""
 
     cursor.execute(query)
+    row_headers = [x[0] for x in cursor.description]
+    json_data = []
+    theData = cursor.fetchall()
+    for row in theData:
+        json_data.append(dict(zip(row_headers, row)))
+    return jsonify(json_data)
 
 # Create a building location for customer if not already exist
 
@@ -254,7 +262,8 @@ def create_building():
     db.get_db().commit()
 
     return "Success"
-    
+
+
 @customers.route('/buildings/<buildingID>', methods=['PUT'])
 def update_building(buildingID):
     req_data = request.get_json()
@@ -264,7 +273,7 @@ def update_building(buildingID):
     zip = req_data['zip']
     st_num = req_data['street_num']
     state = req_data['state']
-    
+
     update_stmt = 'UPDATE building SET name = {0}, coordinates = {1}, street_name = {2}, zip = {3}, street_num = {4}, state = {5} WHERE building_id = {6}'.format(
         name, coord, st_name, zip, st_num, state, buildingID)
 
@@ -280,7 +289,8 @@ def update_building(buildingID):
 
 @customers.route('/buildings/<buildingID>', methods=['DELETE'])
 def delete_building(buildingID):
-    delete_stmt = 'DELETE FROM building WHERE building_id = {0}'.format(buildingID)
+    delete_stmt = 'DELETE FROM building WHERE building_id = {0}'.format(
+        buildingID)
 
     cursor = db.get_db().cursor()
     cursor.execute(delete_stmt)
