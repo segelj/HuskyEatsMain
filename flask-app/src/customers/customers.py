@@ -129,6 +129,7 @@ def get_customer_order(custID, orderID):
 @customers.route('/order/<custID>', methods=['POST'])
 def create_customer_order(custID):
     req_data = request.get_json()
+    products = req_data['products']
     subtotal = req_data['subtotal']
     tip = req_data['tip']
     fee = req_data['fee']
@@ -144,6 +145,11 @@ def create_customer_order(custID):
 
     cursor = db.get_db().cursor()
     cursor.execute(insert_stmt)
+    order_id = cursor.lastrowid
+    for product_id in products:
+        insert_stmt = 'INSERT INTO OrderProduct (order_id, product_id) VALUES ('
+        insert_stmt += str(order_id) + ', ' + str(product_id) + ')'
+        cursor.execute(insert_stmt)
     db.get_db().commit()
 
     return "Success"
@@ -232,6 +238,17 @@ def create_driver_rating(orderID):
 
     return "Success"
 
+# Create an OrderProduct entry associated with a particular order and product
+# @customers.route('/OrderProduct', methods=['POST'])
+# def create_order_product():
+#     insert_stmt = 'INSERT INTO OrderProduct (order_id, product_id) VALUES ('
+#     insert_stmt += str(orderID) + ', ' + str(productID) + ')'
+
+#     cursor = db.get_db().cursor()
+#     cursor.execute(insert_stmt)
+#     db.get_db().commit()
+
+#     return "Success"
 
 # Get all buildings on campus
 @customers.route('/orders', methods=['GET'])
