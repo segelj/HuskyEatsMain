@@ -134,13 +134,12 @@ def create_customer_order(custID):
     tip = req_data['tip']
     fee = req_data['fee']
     tax = req_data['tax']
-    date = req_data['date']
     status = req_data['status']
     rest_id = req_data['restaurant_id']
 
-    insert_stmt = 'INSERT INTO orders (subtotal, tip, fee, tax, date, status, customer_id, restaurant_id) VALUES ('
+    insert_stmt = 'INSERT INTO orders (subtotal, tip, fee, tax, status, customer_id, restaurant_id) VALUES ('
     insert_stmt += str(subtotal) + ', ' + str(tip) + ', ' + str(fee) + ', ' + \
-        str(tax) + '", "' + date + '", "' + status + \
+        str(tax) + '", "' + status + \
         '", ' + str(custID) + ', ' + str(rest_id) + ')'
 
     cursor = db.get_db().cursor()
