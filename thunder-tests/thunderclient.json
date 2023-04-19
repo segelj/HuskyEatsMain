@@ -40,5 +40,33 @@
     "headers": [],
     "params": [],
     "tests": []
+  },
+  {
+    "_id": "b4a8030a-9d44-4925-85ce-7c7fb165280f",
+    "colId": "5350c703-7d7d-4fd3-bb0b-d49ff91d4561",
+    "containerId": "",
+    "name": "Get Restaraunts",
+    "url": "localhost:8001/r/restaurants",
+    "method": "GET",
+    "sortNum": 10000,
+    "created": "2023-04-18T20:53:23.500Z",
+    "modified": "2023-04-18T20:53:34.297Z",
+    "headers": [],
+    "params": [],
+    "tests": []
+  },
+  {
+    "_id": "478adf8e-fd02-4b4a-806f-ba347da5de3d",
+    "colId": "5350c703-7d7d-4fd3-bb0b-d49ff91d4561",
+    "containerId": "",
+    "name": "Get Restaurant by ID",
+    "url": "localhost:8001/r/restaurants/1",
+    "method": "GET",
+    "sortNum": 20000,
+    "created": "2023-04-18T20:55:46.604Z",
+    "modified": "2023-04-18T20:56:05.172Z",
+    "headers": [],
+    "params": [],
+    "tests": []
   }
 ]
