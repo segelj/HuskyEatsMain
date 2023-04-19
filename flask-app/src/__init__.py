@@ -33,12 +33,12 @@ def create_app():
         return "<h1>Welcome to the husky eats app</h1>"
 
     # Import the various routes
-    from src.customers.customers import customers
+    from src.students.students import students
     from src.restaurants.restaurants import restaurants
     from src.buildings.buildings import buildings
 
     # Register the routes that we just imported so they can be properly handled
-    app.register_blueprint(customers,   url_prefix='/c')
+    app.register_blueprint(students,   url_prefix='/s')
     app.register_blueprint(restaurants,    url_prefix='/r')
     app.register_blueprint(buildings, url_prefix='/b')
 
