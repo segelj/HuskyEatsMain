@@ -10,7 +10,7 @@ def get_restaurants():
     # get a cursor object from the database
     cursor = db.get_db().cursor()
 
-    query = """SELECT restaurant_id as 'id', Restaurant.name as 'name', RC.name as 'category', B.name as 'building' FROM Restaurant
+    query = """SELECT restaurant_id as 'id', Restaurant.name as 'name', RC.name as 'category', B.name as 'building', B.building_id, RC.category_id FROM Restaurant
     JOIN ResCategory RC on RC.category_id = Restaurant.category_id
     JOIN Building B on B.building_id = Restaurant.building_id
     ORDER BY restaurant_id"""
@@ -86,18 +86,12 @@ def update_restaurant(restaurant_id):
     current_app.logger.info(the_data)
 
     name = the_data['name']
-    open_time = the_data['open_time']
-    close_time = the_data['close_time']
     category_id = the_data['category_id']
-    menu = the_data['menu']
-    location = the_data['location']
+    building_id = the_data['building_id']
 
-    query = 'UPDATE Restaurant SET name = "' + name
-    + '", open_time = "' + open_time + '", close_time = "'
-    + close_time + '", category_id = ' + category_id
-    + ', menu = "' + menu + '", location = "'
-    + location + '" WHERE restaurant_id = ' + str(restaurant_id)
-    current_app.logger.info(query)
+    query = f"""UPDATE Restaurant 
+    SET name = '{name}', category_id = '{category_id}', building_id = '{building_id}'
+    WHERE restaurant_id = {restaurant_id}"""
 
     cursor = db.get_db().cursor()
     cursor.execute(query)
@@ -269,3 +263,31 @@ def get_restaurants_by_category(category):
     the_response.status_code = 200
     the_response.mimetype = 'application/json'
     return the_response
+
+# Returns a list of all possible categories
+@restaurants.route('/restaurants/categories', methods=['GET'])
+def get_restaurant_categories():
+    # get a cursor object from the database
+    cursor = db.get_db().cursor()
+
+    query = """SELECT * FROM ResCategory"""
+
+    # use cursor to query the database for a list of products
+    cursor.execute(query)
+
+    # grab the column headers from the returned data
+    column_headers = [x[0] for x in cursor.description]
+
+    # create an empty dictionary object to use in
+    # putting column headers together with data
+    json_data = []
+
+    # fetch all the data from the cursor
+    theData = cursor.fetchall()
+
+    # for each of the rows, zip the data elements together with
+    # the column headers.
+    for row in theData:
+        json_data.append(dict(zip(column_headers, row)))
+
+    return jsonify(json_data)
