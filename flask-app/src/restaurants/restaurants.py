@@ -219,7 +219,7 @@ def delete_menu(restaurant_id, menu_id):
 
 # Deletes a product
 @restaurants.route('/restaurants/<restaurant_id>/menu/<menu_id>/product/<product_id>', methods=['DELETE'])
-def delete_menu(restaurant_id, menu_id, product_id):
+def delete_product(restaurant_id, menu_id, product_id):
     query = f""""DELETE FROM Product WHERE menu_id = '{menu_id}' AND product_id = '{product_id}' AND restaurant_id = '{restaurant_id}'"""
     cursor = db.get_db().cursor()
     cursor.execute(query)
