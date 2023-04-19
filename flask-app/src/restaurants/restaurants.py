@@ -10,7 +10,7 @@ def get_restaurants():
     # get a cursor object from the database
     cursor = db.get_db().cursor()
 
-    query = """SELECT restaurant_id as 'id', Restaurant.name as 'name', RC.name as 'category', B.name as 'building' FROM Restaurant
+    query = """SELECT restaurant_id as 'id', Restaurant.name as 'name', RC.name as 'category', B.name as 'building', B.building_id, RC.category_id FROM Restaurant
     JOIN ResCategory RC on RC.category_id = Restaurant.category_id
     JOIN Building B on B.building_id = Restaurant.building_id
     ORDER BY restaurant_id"""
@@ -86,18 +86,12 @@ def update_restaurant(restaurant_id):
     current_app.logger.info(the_data)
 
     name = the_data['name']
-    open_time = the_data['open_time']
-    close_time = the_data['close_time']
     category_id = the_data['category_id']
-    menu = the_data['menu']
-    location = the_data['location']
+    building_id = the_data['building_id']
 
-    query = 'UPDATE Restaurant SET name = "' + name
-    + '", open_time = "' + open_time + '", close_time = "'
-    + close_time + '", category_id = ' + category_id
-    + ', menu = "' + menu + '", location = "'
-    + location + '" WHERE restaurant_id = ' + str(restaurant_id)
-    current_app.logger.info(query)
+    query = f"""UPDATE Restaurant 
+    SET name = '{name}', category_id = '{category_id}', building_id = '{building_id}'
+    WHERE restaurant_id = {restaurant_id}"""
 
     cursor = db.get_db().cursor()
     cursor.execute(query)
@@ -116,7 +110,7 @@ def delete_restaurant(restaurant_id):
     return "Success"
 
 # Adds a menu to a restaurant
-@restaurants.route('/restaurant/<int:restaurant_id>/menu', methods=['POST'])
+@restaurants.route('/restaurant/<restaurant_id>/menu', methods=['POST'])
 def add_menu(restaurant_id):
     the_data = request.json
     current_app.logger.info(the_data)
@@ -124,10 +118,7 @@ def add_menu(restaurant_id):
     name = the_data['name']
     menu_id = the_data['menu_id']
 
-    query = 'INSERT INTO Menu (name, menu_id, restaurant_id) VALUES ("'
-    query += name + '", '
-    query += str(menu_id) + ', '
-    query += str(restaurant_id) + ')'
+    query = f"""INSERT INTO Menu (name, menu_id, restaurant_id) VALUES ('{name}', '{menu_id}', '{restaurant_id}')"""
     current_app.logger.info(query)
 
     cursor = db.get_db().cursor()
@@ -218,10 +209,20 @@ def update_menu(restaurant_id, menu_id):
     
 # Deletes a menu
 @restaurants.route('/restaurants/<restaurant_id>/menu/<menu_id>', methods=['DELETE'])
-def delete_menu(restaurant_id):
-    query = "DELETE FROM Menu WHERE menu_id = %s"
+def delete_menu(restaurant_id, menu_id):
+    query = f""""DELETE FROM Menu WHERE restaurant_id = '{restaurant_id}' AND menu_id = '{menu_id}'"""
     cursor = db.get_db().cursor()
-    cursor.execute(query, (restaurant_id,))
+    cursor.execute(query)
+    db.get_db().commit()
+
+    return "Success"
+
+# Deletes a product
+@restaurants.route('/restaurants/<restaurant_id>/menu/<menu_id>/product/<product_id>', methods=['DELETE'])
+def delete_menu(restaurant_id, menu_id, product_id):
+    query = f""""DELETE FROM Product WHERE menu_id = '{menu_id}' AND product_id = '{product_id}' AND restaurant_id = '{restaurant_id}'"""
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
     db.get_db().commit()
 
     return "Success"
@@ -238,16 +239,9 @@ def add_product_to_menu(restaurant_id, menu_id):
     price = the_data['price']
     category_id = the_data['category_id']
 
-    query = 'INSERT INTO Product (name, product_id, restaurant_id, description, price, menu_id, category_id) VALUES ("'
-    query += name + '", '
-    query += str(product_id) + ', '
-    query += str(restaurant_id) + ', "'
-    query += description + '", '
-    query += str(price) + ', '
-    query += str(menu_id) + ', '
-    query += str(category_id) + ')'
+    query = f"""INSERT INTO Product (name, product_id, restaurant_id, description, price, menu_id, category_id) VALUES (
+        '{name}', '{product_id}', '{restaurant_id}', '{description}', '{price}', '{menu_id}', '{category_id}'"""
     current_app.logger.info(query)
-
     cursor = db.get_db().cursor()
     cursor.execute(query)
     db.get_db().commit()
@@ -269,3 +263,31 @@ def get_restaurants_by_category(category):
     the_response.status_code = 200
     the_response.mimetype = 'application/json'
     return the_response
+
+# Returns a list of all possible categories
+@restaurants.route('/restaurants/categories', methods=['GET'])
+def get_restaurant_categories():
+    # get a cursor object from the database
+    cursor = db.get_db().cursor()
+
+    query = """SELECT * FROM ResCategory"""
+
+    # use cursor to query the database for a list of products
+    cursor.execute(query)
+
+    # grab the column headers from the returned data
+    column_headers = [x[0] for x in cursor.description]
+
+    # create an empty dictionary object to use in
+    # putting column headers together with data
+    json_data = []
+
+    # fetch all the data from the cursor
+    theData = cursor.fetchall()
+
+    # for each of the rows, zip the data elements together with
+    # the column headers.
+    for row in theData:
+        json_data.append(dict(zip(column_headers, row)))
+
+    return jsonify(json_data)

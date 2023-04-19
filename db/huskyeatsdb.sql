@@ -8,7 +8,7 @@ USE huskyeatsdb;
 CREATE TABLE IF NOT EXISTS Building
 (
     name VARCHAR(50),
-    building_id INT,
+    building_id INT AUTO_INCREMENT,
     coordinates VARCHAR(100),
     street_name VARCHAR(100),
     zip INT,
@@ -24,13 +24,17 @@ VALUES
 ('Kennedy Hall', 3, '47.6597,-122.3056', 'NE 45th St', 98105, 4515, 'MA'),
 ('International Village', 4, '47.6564,-122.3115', 'NE Campus Pkwy', 98105, 4245, 'MA'),
 ('Curry Student Center', 5, '47.6585,-122.3069', 'NE 45th St', 98105, 4545, 'MA'),
-('West Village C', 6, '47.6561,-122.3139', 'NE Campus Pkwy', 98105, 4240, 'MA');
+('West Village C', 6, '47.6561,-122.3139', 'NE Campus Pkwy', 98105, 4240, 'MA'),
+('West Village G', 7, '89.6585,-126.3069', 'NE 45th St', 98105, 4545, 'MA'),
+('Marino', 8, '49.6561,-129.3139', 'NE Campus Pkwy', 98105, 4240, 'MA');
+
+-- 8 records
 
 CREATE TABLE IF NOT EXISTS Driver
 (
     first_name VARCHAR(50),
     last_name VARCHAR(50),
-    driver_id INT,
+    driver_id INT AUTO_INCREMENT,
     PRIMARY KEY (driver_id)
 );
 
@@ -40,14 +44,20 @@ VALUES
 ('Jane', 'Doe', 2),
 ('Bob', 'Smith', 3),
 ('Alice', 'Johnson', 4),
-('Jack', 'Lee', 5);
+('Jack', 'Lee', 5),
+('Sarah', 'Williams', 6),
+('David', 'Brown', 7),
+('Emily', 'Davis', 8),
+('Michael', 'Wilson', 9),
+('Sophia', 'Garcia', 10);
+--10 records
 
 CREATE TABLE IF NOT EXISTS Student
 (
     first_name VARCHAR(50),
     last_name VARCHAR(50),
     phone VARCHAR(50),
-    student_id INT,
+    student_id INT AUTO_INCREMENT,
     building_id INT,
     PRIMARY KEY (student_id),
     CONSTRAINT fk_studentbuilding
@@ -86,7 +96,7 @@ CREATE TABLE IF NOT EXISTS Restaurant
     open_time TIME,
     close_time TIME,
     category_id INT,
-    restaurant_id INT,
+    restaurant_id INT AUTO_INCREMENT,
     building_id INT,
     PRIMARY KEY (restaurant_id),
     CONSTRAINT fk_categoryres
@@ -108,11 +118,13 @@ VALUES
     ('KFC', '08:00:00', '21:00:00', 1, 7, 2),
     ('Subway', '10:00:00', '20:00:00', 3, 8, 2);
 
+-- 8 records
+
 
 CREATE TABLE IF NOT EXISTS Menu
 (
     name VARCHAR(100),
-    menu_id INT,
+    menu_id INT AUTO_INCREMENT,
     restaurant_id INT,
     PRIMARY KEY (menu_id),
     CONSTRAINT fk_restaurantmenu
@@ -123,15 +135,17 @@ CREATE TABLE IF NOT EXISTS Menu
 INSERT INTO Menu (name, menu_id, restaurant_id)
 VALUES
     ('Breakfast Menu', 1, 6),
-    ('Lunch Menu', 1, 3),
-    ('Dinner Menu', 1, 8),
-    ('Value Menu', 1, 2),
-    ('Burgers', 1, 5),
-    ('Drinks', 1, 7),
-    ('Dessert', 1, 1),
-    ('Appetizers', 1, 4),
-    ('Gluten Free', 2, 2),
-    ('Vegan', 2, 8);
+    ('Lunch Menu', 2, 3),
+    ('Dinner Menu', 3, 8),
+    ('Value Menu', 4, 2),
+    ('Burgers', 5, 5),
+    ('Drinks', 6, 7),
+    ('Dessert', 7, 1),
+    ('Appetizers', 8, 4),
+    ('Gluten Free', 9, 2),
+    ('Vegan', 10, 8);
+
+-- 10 records
 
 CREATE TABLE IF NOT EXISTS ProductCategory
 (
@@ -150,7 +164,7 @@ VALUES (1, 'BBQ'),
 CREATE TABLE IF NOT EXISTS Product
 (
     name VARCHAR(100),
-    product_id INT,
+    product_id INT AUTO_INCREMENT,
     restaurant_id INT,
     description VARCHAR(500),
     price DECIMAL(10,2),
@@ -180,6 +194,8 @@ VALUES
     ('Cheese Pizza', 8, 3, 'Plain cheese pizza', 6.99, 4, 5),
     ('Caesar Salad', 9, 2, 'A salad consisting of romaine lettuce and croutons', 10.99, 9, 1),
     ('Ice Cream', 10, 6, 'Its cold and yummy! Ice cream!', 12.99, 3, 3);
+
+-- 10 entries
 
 CREATE TABLE IF NOT EXISTS ResRating
 (
@@ -228,7 +244,7 @@ CREATE TABLE IF NOT EXISTS Orders
     fee DECIMAL(10,2),
     tax DECIMAL(10,2),
     date DATE,
-    order_id INT,
+    order_id INT AUTO_INCREMENT,
     status VARCHAR(100),
     student_id INT,
     restaurant_id INT,
@@ -276,31 +292,16 @@ CREATE TABLE IF NOT EXISTS Route
             ON UPDATE cascade ON DELETE restrict,
     CONSTRAINT fk_routebuildingb
         FOREIGN KEY (buildingB) REFERENCES Building (building_id)
-            ON UPDATE cascade ON DELETE cascade
+            ON UPDATE cascade ON DELETE restrict
 );
 
 INSERT INTO Route (order_id, route_id, buildingA, buildingB)
 VALUES
-(10,1, 1, 2),
-(20,2, 5, 1),
-(17,3, 3, 5),
-(13,4, 6, 4),
-(12,5, 2, 6),
 (3, 6, 4, 3),
 (2, 7, 6, 6),
-(11,8, 2, 2),
 (4, 9, 4, 3),
 (1, 10,3, 5),
-(5, 11,5, 4),
-(9, 12,1, 1),
-(16,13,6, 3),
-(19,14,5, 1),
-(8, 15,1, 4),
-(6, 16,3, 5),
-(14,17,2, 6),
-(7, 18,4, 2),
-(15,19,2, 4),
-(18,20,1, 2);
+(5, 11,5, 4);
 
 CREATE TABLE IF NOT EXISTS OrderProduct
 (
@@ -316,23 +317,8 @@ CREATE TABLE IF NOT EXISTS OrderProduct
 
 INSERT INTO OrderProduct (order_id, product_id)
 VALUES
-(15, 5),
-(12, 2),
+(1, 5),
+(3, 2),
 (5,  7),
-(12, 9),
-(14, 8),
-(18, 10),
-(15, 4),
 (4,  6),
-(12, 1),
-(11, 3),
-(7,  1),
-(8,  7),
-(15, 2),
-(17, 9),
-(8,  5),
-(15, 4),
-(17, 3),
-(19, 10),
-(17, 8),
 (2,  6);
