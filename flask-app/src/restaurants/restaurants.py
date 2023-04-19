@@ -110,7 +110,7 @@ def delete_restaurant(restaurant_id):
     return "Success"
 
 # Adds a menu to a restaurant
-@restaurants.route('/restaurant/<int:restaurant_id>/menu', methods=['POST'])
+@restaurants.route('/restaurant/<restaurant_id>/menu', methods=['POST'])
 def add_menu(restaurant_id):
     the_data = request.json
     current_app.logger.info(the_data)
@@ -118,10 +118,7 @@ def add_menu(restaurant_id):
     name = the_data['name']
     menu_id = the_data['menu_id']
 
-    query = 'INSERT INTO Menu (name, menu_id, restaurant_id) VALUES ("'
-    query += name + '", '
-    query += str(menu_id) + ', '
-    query += str(restaurant_id) + ')'
+    query = f"""INSERT INTO Menu (name, menu_id, restaurant_id) VALUES ('{name}', '{menu_id}', '{restaurant_id}')"""
     current_app.logger.info(query)
 
     cursor = db.get_db().cursor()
@@ -212,10 +209,20 @@ def update_menu(restaurant_id, menu_id):
     
 # Deletes a menu
 @restaurants.route('/restaurants/<restaurant_id>/menu/<menu_id>', methods=['DELETE'])
-def delete_menu(restaurant_id):
-    query = "DELETE FROM Menu WHERE menu_id = %s"
+def delete_menu(restaurant_id, menu_id):
+    query = f""""DELETE FROM Menu WHERE restaurant_id = '{restaurant_id}' AND menu_id = '{menu_id}'"""
     cursor = db.get_db().cursor()
-    cursor.execute(query, (restaurant_id,))
+    cursor.execute(query)
+    db.get_db().commit()
+
+    return "Success"
+
+# Deletes a product
+@restaurants.route('/restaurants/<restaurant_id>/menu/<menu_id>/product/<product_id>', methods=['DELETE'])
+def delete_menu(restaurant_id, menu_id, product_id):
+    query = f""""DELETE FROM Product WHERE menu_id = '{menu_id}' AND product_id = '{product_id}' AND restaurant_id = '{restaurant_id}'"""
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
     db.get_db().commit()
 
     return "Success"
@@ -232,16 +239,9 @@ def add_product_to_menu(restaurant_id, menu_id):
     price = the_data['price']
     category_id = the_data['category_id']
 
-    query = 'INSERT INTO Product (name, product_id, restaurant_id, description, price, menu_id, category_id) VALUES ("'
-    query += name + '", '
-    query += str(product_id) + ', '
-    query += str(restaurant_id) + ', "'
-    query += description + '", '
-    query += str(price) + ', '
-    query += str(menu_id) + ', '
-    query += str(category_id) + ')'
+    query = f"""INSERT INTO Product (name, product_id, restaurant_id, description, price, menu_id, category_id) VALUES (
+        '{name}', '{product_id}', '{restaurant_id}', '{description}', '{price}', '{menu_id}', '{category_id}'"""
     current_app.logger.info(query)
-
     cursor = db.get_db().cursor()
     cursor.execute(query)
     db.get_db().commit()
