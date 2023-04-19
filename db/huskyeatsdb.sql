@@ -65,18 +65,18 @@ CREATE TABLE IF NOT EXISTS Student
             ON UPDATE cascade ON DELETE restrict
 );
 
-INSERT INTO Student (first_name, last_name, phone, student_id, building_id)
+INSERT INTO Student (first_name, last_name, phone, building_id)
 VALUES
-('Prince', 'Ransbury', '785-633-7476', 1, 1),
-('Oliver', 'Johnson', '206-555-5678', 2, 1),
-('Sophia', 'Brown', '206-555-9012', 3, 6),
-('William', 'Davis', '206-555-3456', 4, 3),
-('Isabella', 'Miller', '206-555-7890', 5, 5),
-('Liam', 'Wilson', '206-555-2345', 6, 4),
-('Jeffery', 'Spiegel', '206-555-1234', 7, 3),
-('John', 'Stevens', '206-555-1234', 8, 4),
-('Mary', 'Davenport', '206-555-1234', 9, 6),
-('Isaac', 'Smith', '206-555-1234', 10, 5);
+('Prince', 'Ransbury', '785-633-7476', 1),
+('Oliver', 'Johnson', '206-555-5678', 1),
+('Sophia', 'Brown', '206-555-9012', 6),
+('William', 'Davis', '206-555-3456', 3),
+('Isabella', 'Miller', '206-555-7890', 5),
+('Liam', 'Wilson', '206-555-2345', 4),
+('Jeffery', 'Spiegel', '206-555-1234', 3),
+('John', 'Stevens', '206-555-1234', 4),
+('Mary', 'Davenport', '206-555-1234', 6),
+('Isaac', 'Smith', '206-555-1234', 5);
 
 CREATE TABLE IF NOT EXISTS ResCategory
 (
