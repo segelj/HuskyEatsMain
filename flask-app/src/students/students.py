@@ -83,6 +83,23 @@ def delete_student(studentID):
 
     return "Success"
 
+@students.route('/orders', methods=['GET'])
+def get_orders():
+     cursor = db.get_db().cursor()
+
+     query = """SELECT order_id, date, status, student_id, name, first_name, last_name, subtotal, tip, fee, tax, driver_rating,
+     res_rating FROM Orders
+     JOIN Driver D on D.driver_id = Orders.driver_id
+     JOIN Restaurant R on Orders.restaurant_id = R.restaurant_id"""
+
+     cursor.execute(query)
+     row_headers = [x[0] for x in cursor.description]
+     json_data = []
+     theData = cursor.fetchall()
+     for row in theData:
+         json_data.append(dict(zip(row_headers, row)))
+     return jsonify(json_data)
+
 # # Get all orders placed by a specified customer
 # @customers.route('/orders/<custID>', methods=['GET'])
 # def get_customer_orders(custID):
