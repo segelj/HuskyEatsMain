@@ -1,10 +1,17 @@
-from flask import Blueprint, request, jsonify, make_response, current_app
-import json
+from flask import Blueprint, request, jsonify, make_response, current_app, abort
+import json, decimal
 from src import db
+from datetime import date as dt
 
 
 students = Blueprint('students', __name__)
 
+# MA tax rate
+TAX_RATE = decimal.Decimal(0.0625)
+# husky eats fee rate
+FEE_RATE = decimal.Decimal(0.1)
+# order initial state
+INIT_STATE = 'processing'
 
 # Get all students from the DB
 @students.route('/students', methods=['GET'])
@@ -21,7 +28,8 @@ def get_students():
 # Get student detail for student with particular studentID
 @students.route('/students/<studentID>', methods=['GET'])
 def get_student(studentID):
-    select_stmt = 'SELECT * FROM Student WHERE student_id = {0}'.format(studentID)
+    select_stmt = 'SELECT * FROM Student WHERE student_id = {0}'\
+        .format(studentID)
     current_app.logger.info(select_stmt)
     cursor = db.get_db().cursor()
     cursor.execute(select_stmt)
@@ -44,9 +52,8 @@ def create_student():
     phone = req_data['phone']
     building_id = req_data['building_id']
 
-    insert_stmt = 'INSERT INTO Student (first_name, last_name, phone, building_id) VALUES ("'
-    insert_stmt += first_name + '", "' + last_name + \
-        '", "' + phone + '", ' + str(building_id) + ')'
+    insert_stmt = 'INSERT INTO Student (first_name, last_name, phone, building_id) \
+        VALUES ("{0}", "{1}", "{2}", {3})'.format(first_name, last_name, phone, building_id)
 
     cursor = db.get_db().cursor()
     cursor.execute(insert_stmt)
@@ -62,9 +69,9 @@ def update_student(studentID):
     phone = req_data['phone']
     building_id = req_data['building_id']
 
-    update_stmt = 'UPDATE Student SET first_name = "' + first_name + '", last_name = "'\
-        + last_name + '", phone = "' + phone + '", building_id = ' + str(building_id)\
-            + ' WHERE student_id = ' + str(studentID)
+    update_stmt = 'UPDATE Student SET first_name = "{0}", last_name = "{1}", phone = "{2}", \
+        building_id = {3} WHERE student_id = {4}'.format(first_name, last_name, phone, \
+            building_id, studentID)
 
     cursor = db.get_db().cursor()
     cursor.execute(update_stmt)
@@ -83,94 +90,111 @@ def delete_student(studentID):
 
     return "Success"
 
+# Get all orders
 @students.route('/orders', methods=['GET'])
 def get_orders():
-     cursor = db.get_db().cursor()
+    cursor = db.get_db().cursor()
 
-     query = """SELECT order_id, date, status, student_id, name, first_name, last_name, subtotal, tip, fee, tax, driver_rating,
-     res_rating FROM Orders
-     JOIN Driver D on D.driver_id = Orders.driver_id
-     JOIN Restaurant R on Orders.restaurant_id = R.restaurant_id"""
+    query = """SELECT order_id, date, status, student_id, name, first_name, last_name, 
+    subtotal, tip, fee, tax, driver_rating, res_rating FROM Orders
+    JOIN Driver D on D.driver_id = Orders.driver_id
+    JOIN Restaurant R on Orders.restaurant_id = R.restaurant_id"""
 
-     cursor.execute(query)
-     row_headers = [x[0] for x in cursor.description]
-     json_data = []
-     theData = cursor.fetchall()
-     for row in theData:
-         json_data.append(dict(zip(row_headers, row)))
-     return jsonify(json_data)
+    cursor.execute(query)
+    row_headers = [x[0] for x in cursor.description]
+    json_data = []
+    theData = cursor.fetchall()
+    for row in theData:
+        json_data.append(dict(zip(row_headers, row)))
+    return jsonify(json_data)
 
-# # Get all orders placed by a specified customer
-# @customers.route('/orders/<custID>', methods=['GET'])
-# def get_customer_orders(custID):
-#     cursor = db.get_db().cursor()
-#     cursor.execute(
-#         'select * from orders where customer_id = {0}'.format(custID))
-#     row_headers = [x[0] for x in cursor.description]
-#     json_data = []
-#     theData = cursor.fetchall()
-#     for row in theData:
-#         json_data.append(dict(zip(row_headers, row)))
-#     the_response = make_response(jsonify(json_data))
-#     the_response.status_code = 200
-#     the_response.mimetype = 'application/json'
-#     return the_response
+# Get all orders placed by a specified student
+@students.route('/orders/<studentID>', methods=['GET'])
+def get_student_orders(studentID):
+    cursor = db.get_db().cursor()
+    cursor.execute('SELECT * FROM Orders WHERE student_id = {0}'.format(studentID))
+    row_headers = [x[0] for x in cursor.description]
+    json_data = []
+    theData = cursor.fetchall()
+    for row in theData:
+        json_data.append(dict(zip(row_headers, row)))
+    the_response = make_response(jsonify(json_data))
+    the_response.status_code = 200
+    the_response.mimetype = 'application/json'
+    return the_response
 
-# # Delete all orders placed by a specified customer
-# @customers.route('/orders/<custID>', methods=['DELETE'])
-# def delete_customer_orders(custID):
-#     delete_stmt = 'DELETE FROM orders WHERE customer_id = {0}'.format(custID)
+# Delete all orders placed by a specified student
+@students.route('/orders/<studentID>', methods=['DELETE'])
+def delete_student_orders(studentID):
+    delete_stmt = 'DELETE FROM Orders WHERE student_id = {0}'.format(studentID)
 
-#     cursor = db.get_db().cursor()
-#     cursor.execute(delete_stmt)
-#     db.get_db().commit()
+    cursor = db.get_db().cursor()
+    cursor.execute(delete_stmt)
+    db.get_db().commit()
 
-#     return "Success"
+    return "Success"
 
-# # Get a particular order placed by a specified customer
-# @customers.route('/orders/<custID>/<orderID>', methods=['GET'])
-# def get_customer_order(custID, orderID):
-#     cursor = db.get_db().cursor()
-#     cursor.execute(
-#         'select * from orders where customer_id = {0} and order_id = {1}'.format(custID, orderID))
-#     row_headers = [x[0] for x in cursor.description]
-#     json_data = []
-#     theData = cursor.fetchall()
-#     for row in theData:
-#         json_data.append(dict(zip(row_headers, row)))
-#     the_response = make_response(jsonify(json_data))
-#     the_response.status_code = 200
-#     the_response.mimetype = 'application/json'
-#     return the_response
+# Get a particular order placed by a specified student
+@students.route('/orders/<studentID>/<orderID>', methods=['GET'])
+def get_student_order(studentID, orderID):
+    cursor = db.get_db().cursor()
+    cursor.execute(
+        'SELECT * FROM Orders WHERE student_id = {0} and order_id = {1}'.format(studentID, orderID))
+    row_headers = [x[0] for x in cursor.description]
+    json_data = []
+    theData = cursor.fetchall()
+    for row in theData:
+        json_data.append(dict(zip(row_headers, row)))
+    the_response = make_response(jsonify(json_data))
+    the_response.status_code = 200
+    the_response.mimetype = 'application/json'
+    return the_response
 
-# # Create a new order placed by a specified customer
-# @customers.route('/order/<custID>', methods=['POST'])
-# def create_customer_order(custID):
-#     req_data = request.get_json()
-#     products = req_data['products']
-#     subtotal = req_data['subtotal']
-#     tip = req_data['tip']
-#     fee = req_data['fee']
-#     tax = req_data['tax']
-#     date = req_data['date']
-#     status = req_data['status']
-#     rest_id = req_data['restaurant_id']
+# Create a new order placed by a specified student
+@students.route('/order/<studentID>', methods=['POST'])
+def create_student_order(studentID):
+    req_data = request.get_json()
+    products = req_data['products']
+    # subtotal = req_data['subtotal']
+    tip = req_data['tip']
+    # fee = req_data['fee']
+    # tax = req_data['tax']
+    # date = req_data['date']
+    # status = req_data['status']
+    # rest_id = req_data['restaurant_id']
 
-#     insert_stmt = 'INSERT INTO orders (subtotal, tip, fee, tax, date, status, customer_id, restaurant_id) VALUES ('
-#     insert_stmt += str(subtotal) + ', ' + str(tip) + ', ' + str(fee) + ', ' + \
-#         str(tax) + '", "' + date + '", "' + status + \
-#         '", ' + str(custID) + ', ' + str(rest_id) + ')'
+    cursor = db.get_db().cursor()
+    
+    subtotal = 0
+    rest_id = 0
+    for product_id in products:
+        product_query = 'SELECT price, restaurant_id FROM Product WHERE product_id = {0}'\
+            .format(product_id)
+        cursor.execute(product_query)
+        row = cursor.fetchone()
+        price = row[0]
+        restaurant_id = row[1]
+        subtotal += price
+        if rest_id and rest_id != restaurant_id:
+            abort(400, 'cannot create an order with products from different restaurants')
+        else:
+            rest_id = restaurant_id
+    tax = TAX_RATE * subtotal
+    fee = FEE_RATE * subtotal
+    date = dt.today()
+    insert_stmt = 'INSERT INTO Orders (subtotal, tip, fee, tax, date, status, \
+        student_id, restaurant_id) VALUES ({0}, {1}, {2}, {3}, "{4}", "{5}", {6}, {7})'\
+            .format(subtotal, tip, fee, tax, date, INIT_STATE, studentID, rest_id)
+    
+    cursor.execute(insert_stmt)
+    order_id = cursor.lastrowid
+    for product_id in products:
+        insert_stmt = 'INSERT INTO OrderProduct (order_id, product_id) VALUES ({0}, {1})'\
+            .format(order_id, product_id)
+        cursor.execute(insert_stmt)
+    db.get_db().commit()
 
-#     cursor = db.get_db().cursor()
-#     cursor.execute(insert_stmt)
-#     order_id = cursor.lastrowid
-#     for product_id in products:
-#         insert_stmt = 'INSERT INTO OrderProduct (order_id, product_id) VALUES ('
-#         insert_stmt += str(order_id) + ', ' + str(product_id) + ')'
-#         cursor.execute(insert_stmt)
-#     db.get_db().commit()
-
-#     return "Success"
+    return "Success"
 
 # # update the tip amount of a particular order by a specified customer
 # @customers.route('/orders/<custID>/<orderID>/tip', methods=['PUT'])
