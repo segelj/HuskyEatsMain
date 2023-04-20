@@ -219,11 +219,7 @@ def delete_menu(restaurant_id, menu_id):
 # Deletes a product
 @restaurants.route('/restaurants/<restaurant_id>/menu/<menu_id>/product/<product_id>', methods=['DELETE'])
 def delete_product(restaurant_id, menu_id, product_id):
-<<<<<<< HEAD
     query = f"DELETE FROM Product WHERE menu_id = '{menu_id}' AND product_id = '{product_id}' AND restaurant_id = '{restaurant_id}'"
-=======
-    query = f"""DELETE FROM Product WHERE menu_id = {menu_id} AND product_id = {product_id} AND restaurant_id = {restaurant_id}"""
->>>>>>> 32afe628486f88e6622253ff345e264d6c284cb1
     cursor = db.get_db().cursor()
     cursor.execute(query)
     db.get_db().commit()
@@ -240,12 +236,7 @@ def add_product_to_menu(restaurant_id, menu_id):
     description = the_data['description']
     price = the_data['price']
     category_id = the_data['category_id']
-
-<<<<<<< HEAD
     query = f"INSERT INTO Product (name, product_id, restaurant_id, description, price, menu_id, category_id) VALUES ('{name}', '{product_id}', '{restaurant_id}', '{description}', '{price}', '{menu_id}', '{category_id}')"
-=======
-    query = f"""INSERT INTO Product (name, restaurant_id, description, price, menu_id, category_id) VALUES ('{name}', {restaurant_id}, '{description}', {price}, {menu_id}, {category_id})"""
->>>>>>> 32afe628486f88e6622253ff345e264d6c284cb1
     current_app.logger.info(query)
     cursor = db.get_db().cursor()
     # print(query)

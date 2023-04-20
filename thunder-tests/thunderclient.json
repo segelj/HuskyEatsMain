@@ -77,7 +77,6 @@
     "tests": []
   },
   {
-<<<<<<< Updated upstream
     "_id": "4e3072e6-ce30-4ad6-a8c3-264e54c5264b",
     "colId": "history",
     "containerId": "",
@@ -266,6 +265,38 @@
     "tests": []
   },
   {
+    "_id": "ed8ae77d-3238-46fb-ab2d-8c818e5ad12c",
+    "colId": "5350c703-7d7d-4fd3-bb0b-d49ff91d4561",
+    "containerId": "",
+    "name": "Get Menus",
+    "url": "localhost:8001/r/restaurant/2/menu",
+    "method": "GET",
+    "sortNum": 30000,
+    "created": "2023-04-20T19:46:54.709Z",
+    "modified": "2023-04-20T19:47:33.005Z",
+    "headers": [],
+    "params": [],
+    "tests": []
+  },
+  {
+    "_id": "b524a619-3ddd-423b-8e00-1955dab7e776",
+    "colId": "5350c703-7d7d-4fd3-bb0b-d49ff91d4561",
+    "containerId": "",
+    "name": "Add Product",
+    "url": "localhost:8001/r/restaurants/2/menus/9/product",
+    "method": "POST",
+    "sortNum": 40000,
+    "created": "2023-04-20T20:09:12.510Z",
+    "modified": "2023-04-20T20:17:39.757Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"name\": \"Dinner Menu\",\n  \"menu_id\": \"31\",\n  \"restaurant_id\": 2\n}"
+    },
+    "tests": []
+  },
+  {
     "_id": "0de7a2e9-ea7b-4ecd-8c8f-dc79eaeab3b0",
     "colId": "history",
     "containerId": "",
@@ -333,47 +364,6 @@
       "type": "json",
       "raw": "{\n  \"name\": \"Appetizer Menu\",\n  \"menu_id\": \"25\",\n  \"restaurant_id\": 3\n}",
       "form": []
-    },
-    "tests": []
-  },
-  {
-    "_id": "71d35ec3-2140-42db-8fe0-39367da2de8b",
-    "colId": "5350c703-7d7d-4fd3-bb0b-d49ff91d4561",
-    "containerId": "",
-    "name": "TestAddMenu2",
-    "url": "localhost:8001/r/restaurant/1/menu",
-    "method": "POST",
-    "sortNum": 40000,
-    "created": "2023-04-20T21:54:19.640Z",
-    "modified": "2023-04-20T21:54:43.366Z",
-    "_id": "ed8ae77d-3238-46fb-ab2d-8c818e5ad12c",
-    "colId": "5350c703-7d7d-4fd3-bb0b-d49ff91d4561",
-    "containerId": "",
-    "name": "Get Menus",
-    "url": "localhost:8001/r/restaurant/2/menu",
-    "method": "GET",
-    "sortNum": 30000,
-    "created": "2023-04-20T19:46:54.709Z",
-    "modified": "2023-04-20T19:47:33.005Z",
-    "headers": [],
-    "params": [],
-    "tests": []
-  },
-  {
-    "_id": "b524a619-3ddd-423b-8e00-1955dab7e776",
-    "colId": "5350c703-7d7d-4fd3-bb0b-d49ff91d4561",
-    "containerId": "",
-    "name": "Add Product",
-    "url": "localhost:8001/r/restaurants/2/menus/9/product",
-    "method": "POST",
-    "sortNum": 40000,
-    "created": "2023-04-20T20:09:12.510Z",
-    "modified": "2023-04-20T20:17:39.757Z",
-    "headers": [],
-    "params": [],
-    "body": {
-      "type": "json",
-      "raw": "{\n  \"name\": \"Dinner Menu\",\n  \"menu_id\": \"31\",\n  \"restaurant_id\": 2\n}"
     },
     "tests": []
   },
@@ -535,6 +525,20 @@
       "raw": "{\n  \"name\": \"Full Menu\"\n}",
       "form": []
     },
+    "tests": []
+  },
+  {
+    "_id": "690317d5-f58b-4222-9407-33b562dcaf1e",
+    "colId": "5350c703-7d7d-4fd3-bb0b-d49ff91d4561",
+    "containerId": "",
+    "name": "TestDeleteRestaurant",
+    "url": "localhost:8001/r/restaurants/5",
+    "method": "DELETE",
+    "sortNum": 170000,
+    "created": "2023-04-20T23:29:31.065Z",
+    "modified": "2023-04-20T23:30:35.766Z",
+    "headers": [],
+    "params": [],
     "tests": []
   }
 ]

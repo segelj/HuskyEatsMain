@@ -12,5 +12,24 @@
     "headers": [],
     "params": [],
     "tests": []
+  },
+  {
+    "_id": "347abda8-1866-43ef-8516-79946cea1dfa",
+    "colId": "history",
+    "containerId": "",
+    "name": "localhost:8001/r/restaurant",
+    "url": "localhost:8001/r/restaurant",
+    "method": "POST",
+    "sortNum": 0,
+    "created": "2023-04-20T23:27:51.533Z",
+    "modified": "2023-04-20T23:27:51.533Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"name\": \"Chipotle\",\n  \"open_time\": \"8:00\",\n  \"close_time\": \"5:00\",\n  \"category_id\": 1,\n  \"restaurant_id\": 20,\n  \"building_id\": 1\n}",
+      "form": []
+    },
+    "tests": []
   }
 ]
