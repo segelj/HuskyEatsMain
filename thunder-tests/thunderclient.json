@@ -308,5 +308,62 @@
     "headers": [],
     "params": [],
     "tests": []
+  },
+  {
+    "_id": "66a21d98-aa5c-4fab-95fd-a56ab4c2c597",
+    "colId": "5350c703-7d7d-4fd3-bb0b-d49ff91d4561",
+    "containerId": "",
+    "name": "TestAddMenu3",
+    "url": "localhost:8001/r/restaurant/1/menu",
+    "method": "POST",
+    "sortNum": 30000,
+    "created": "2023-04-20T21:53:06.276Z",
+    "modified": "2023-04-20T21:53:36.283Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"name\": \"Appetizer Menu\",\n  \"menu_id\": \"25\",\n  \"restaurant_id\": 3\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "71d35ec3-2140-42db-8fe0-39367da2de8b",
+    "colId": "5350c703-7d7d-4fd3-bb0b-d49ff91d4561",
+    "containerId": "",
+    "name": "TestAddMenu2",
+    "url": "localhost:8001/r/restaurant/1/menu",
+    "method": "POST",
+    "sortNum": 40000,
+    "created": "2023-04-20T21:54:19.640Z",
+    "modified": "2023-04-20T21:54:43.366Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"name\": \"Dinner Menu\",\n  \"menu_id\": \"31\",\n  \"restaurant_id\": 2\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "dc934cf8-6f5d-4bdf-bbb2-b93273bc80a5",
+    "colId": "5350c703-7d7d-4fd3-bb0b-d49ff91d4561",
+    "containerId": "",
+    "name": "TestAddMenu",
+    "url": "localhost:8001/r/restaurant/1/menu",
+    "method": "POST",
+    "sortNum": 50000,
+    "created": "2023-04-20T21:55:20.094Z",
+    "modified": "2023-04-20T21:55:36.353Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"name\": \"Dinner Menu\",\n  \"menu_id\": \"34\",\n  \"restaurant_id\": 1\n}",
+      "form": []
+    },
+    "tests": []
   }
 ]
