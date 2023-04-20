@@ -50,10 +50,17 @@
     "method": "GET",
     "sortNum": 10000,
     "created": "2023-04-18T20:53:23.500Z",
-    "modified": "2023-04-18T20:53:34.297Z",
+    "modified": "2023-04-20T21:10:29.504Z",
     "headers": [],
     "params": [],
-    "tests": []
+    "tests": [
+      {
+        "type": "res-time",
+        "custom": "",
+        "action": "<",
+        "value": "100000000"
+      }
+    ]
   },
   {
     "_id": "478adf8e-fd02-4b4a-806f-ba347da5de3d",
@@ -70,6 +77,7 @@
     "tests": []
   },
   {
+<<<<<<< Updated upstream
     "_id": "4e3072e6-ce30-4ad6-a8c3-264e54c5264b",
     "colId": "history",
     "containerId": "",
@@ -338,31 +346,34 @@
     "sortNum": 40000,
     "created": "2023-04-20T21:54:19.640Z",
     "modified": "2023-04-20T21:54:43.366Z",
+    "_id": "ed8ae77d-3238-46fb-ab2d-8c818e5ad12c",
+    "colId": "5350c703-7d7d-4fd3-bb0b-d49ff91d4561",
+    "containerId": "",
+    "name": "Get Menus",
+    "url": "localhost:8001/r/restaurant/2/menu",
+    "method": "GET",
+    "sortNum": 30000,
+    "created": "2023-04-20T19:46:54.709Z",
+    "modified": "2023-04-20T19:47:33.005Z",
     "headers": [],
     "params": [],
-    "body": {
-      "type": "json",
-      "raw": "{\n  \"name\": \"Dinner Menu\",\n  \"menu_id\": \"31\",\n  \"restaurant_id\": 2\n}",
-      "form": []
-    },
     "tests": []
   },
   {
-    "_id": "dc934cf8-6f5d-4bdf-bbb2-b93273bc80a5",
+    "_id": "b524a619-3ddd-423b-8e00-1955dab7e776",
     "colId": "5350c703-7d7d-4fd3-bb0b-d49ff91d4561",
     "containerId": "",
-    "name": "TestAddMenu",
-    "url": "localhost:8001/r/restaurant/1/menu",
+    "name": "Add Product",
+    "url": "localhost:8001/r/restaurants/2/menus/9/product",
     "method": "POST",
-    "sortNum": 50000,
-    "created": "2023-04-20T21:55:20.094Z",
-    "modified": "2023-04-20T21:55:36.353Z",
+    "sortNum": 40000,
+    "created": "2023-04-20T20:09:12.510Z",
+    "modified": "2023-04-20T20:17:39.757Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n  \"name\": \"Dinner Menu\",\n  \"menu_id\": \"34\",\n  \"restaurant_id\": 1\n}",
-      "form": []
+      "raw": "{\n  \"name\": \"Dinner Menu\",\n  \"menu_id\": \"31\",\n  \"restaurant_id\": 2\n}"
     },
     "tests": []
   },
