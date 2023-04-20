@@ -100,6 +100,31 @@ def get_orders():
          json_data.append(dict(zip(row_headers, row)))
      return jsonify(json_data)
 
+@students.route('/order', methods=['POST'])
+def create_order():
+    req_data = request.get_json()
+    student_id = req_data['student_id']
+    products = req_data['products']
+    subtotal = req_data['subtotal']
+    tip = req_data['tip']
+    fee = req_data['fee']
+    tax = req_data['tax']
+    rest_id = req_data['restaurant_id']
+
+    new_order_query = f"""INSERT INTO Orders (subtotal, tip, fee, tax, status, student_id, restaurant_id)
+    VALUES ({subtotal}, {tip}, {fee}, {tax}, 'pending', {student_id}, {rest_id})"""
+
+    cursor = db.get_db().cursor()
+    cursor.execute(new_order_query)
+    order_id = cursor.lastrowid
+    for product_id in products:
+        new_op_query = f"""INSERT INTO OrderProduct (order_id, product_id)
+        VALUES ({order_id}, {product_id})"""
+        cursor.execute(new_op_query)
+    db.get_db().commit()
+
+    return "Success"
+
 # # Get all orders placed by a specified customer
 # @customers.route('/orders/<custID>', methods=['GET'])
 # def get_customer_orders(custID):
