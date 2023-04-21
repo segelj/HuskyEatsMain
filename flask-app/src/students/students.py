@@ -176,53 +176,6 @@ def get_order(orderID):
     the_response.mimetype = 'application/json'
     return the_response
 
-# # Create a new order placed by a specified student
-# @students.route('/order/<studentID>', methods=['POST'])
-# def create_student_order(studentID):
-#     req_data = request.get_json()
-#     products = req_data['products']
-#     # subtotal = req_data['subtotal']
-#     tip = req_data['tip']
-#     # fee = req_data['fee']
-#     # tax = req_data['tax']
-#     # date = req_data['date']
-#     # status = req_data['status']
-#     # rest_id = req_data['restaurant_id']
-    
-#     cursor = db.get_db().cursor()
-    
-#     subtotal = 0
-#     rest_id = 0
-#     for product_id in products:
-#         product_query = 'SELECT price, restaurant_id FROM Product WHERE product_id = {0}'\
-#             .format(product_id)
-#         cursor.execute(product_query)
-#         row = cursor.fetchone()
-#         price = row[0]
-#         restaurant_id = row[1]
-#         subtotal += price
-#         if rest_id and rest_id != restaurant_id:
-#             abort(400, 'cannot create an order with products from different restaurants')
-#         else:
-#             rest_id = restaurant_id
-    
-#     tax = TAX_RATE * subtotal
-#     fee = FEE_RATE * subtotal
-#     date = dt.today()
-#     insert_stmt = 'INSERT INTO Orders (subtotal, tip, fee, tax, date, status, \
-#         student_id, restaurant_id) VALUES ({0}, {1}, {2}, {3}, "{4}", "{5}", {6}, {7})'\
-#             .format(subtotal, tip, fee, tax, date, INIT_STATE, studentID, rest_id)
-    
-#     cursor.execute(insert_stmt)
-#     order_id = cursor.lastrowid
-#     for product_id in products:
-#         insert_stmt = 'INSERT INTO OrderProduct (order_id, product_id) VALUES ({0}, {1})'\
-#             .format(order_id, product_id)
-#         cursor.execute(insert_stmt)
-#     db.get_db().commit()
-
-#     return "Success"
-
 # update the tip amount of a particular order
 @students.route('/orders/<orderID>/tip', methods=['PUT'])
 def update_order_tip(orderID):
@@ -282,33 +235,3 @@ def delete_order(orderID):
     db.get_db().commit()
 
     return "Success"
-
-# # Create a restaurant rating for a particular order
-# @students.route('/order/<orderID>/resRating', methods=['POST'])
-# def create_restaurant_rating(orderID):
-#     req_data = request.get_json()
-#     stars = req_data['stars']
-
-#     insert_stmt = 'INSERT INTO ResRating (restaurant_id, stars) VALUES ('
-#     insert_stmt += '(SELECT restaurant_id FROM orders WHERE order_id = ' + str(orderID) + '), ' + str(stars) + ')'
-
-#     cursor = db.get_db().cursor()
-#     cursor.execute(insert_stmt)
-#     db.get_db().commit()
-
-#     return "Success"
-
-# # Create a driver rating for a particular order
-# @customers.route('/order/<orderID>/driverRating', methods=['POST'])
-# def create_driver_rating(orderID):
-#     req_data = request.get_json()
-#     stars = req_data['stars']
-
-#     insert_stmt = 'INSERT INTO DriverRating (driver_id, stars) VALUES ('
-#     insert_stmt += '(SELECT driver_id FROM orders WHERE order_id = ' + str(orderID) + '), ' + str(stars) + ')'
-
-#     cursor = db.get_db().cursor()
-#     cursor.execute(insert_stmt)
-#     db.get_db().commit()
-
-#     return "Success"
