@@ -142,25 +142,6 @@
     "colId": "history",
     "containerId": "",
     "name": "update_student",
-    "url": "localhost:8001/s/students/3",
-    "method": "PUT",
-    "sortNum": 0,
-    "created": "2023-04-19T17:54:03.903Z",
-    "modified": "2023-04-20T02:15:13.034Z",
-    "headers": [],
-    "params": [],
-    "body": {
-      "type": "json",
-      "raw": "{\n  \"building_id\": 6,\n  \"first_name\": \"Sophia\",\n  \"last_name\": \"Yellow\",\n  \"phone\": \"206-555-9012\"\n}",
-      "form": []
-    },
-    "tests": []
-  },
-  {
-    "_id": "14a3028b-8352-42ea-b2f3-354be14fe261",
-    "colId": "history",
-    "containerId": "",
-    "name": "delete_student",
     "url": "localhost:8001/s/students/11",
     "method": "DELETE",
     "sortNum": 0,
@@ -604,14 +585,28 @@
     "method": "PUT",
     "sortNum": 220000,
     "created": "2023-04-21T00:28:28.117Z",
-    "modified": "2023-04-21T00:30:21.202Z",
+    "modified": "2023-04-21T00:32:51.081Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n  \"name\": \"Chipotle\",\n  \"category_id\": 10,\n  \"building_id\": 15\n}",
+      "raw": "{\n  \"name\": \"Chipotle\",\n  \"category_id\": 20,\n  \"building_id\": 15\n}",
       "form": []
     },
+    "tests": []
+  },
+  {
+    "_id": "3d1a43f0-15db-428d-b89c-fbed5462dc33",
+    "colId": "5350c703-7d7d-4fd3-bb0b-d49ff91d4561",
+    "containerId": "",
+    "name": "TestGetBuildings",
+    "url": "localhost:8001/b//buildings",
+    "method": "GET",
+    "sortNum": 230000,
+    "created": "2023-04-21T00:45:01.929Z",
+    "modified": "2023-04-21T00:45:05.252Z",
+    "headers": [],
+    "params": [],
     "tests": []
   }
 ]
