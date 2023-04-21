@@ -71,10 +71,17 @@
     "method": "GET",
     "sortNum": 20000,
     "created": "2023-04-18T20:55:46.604Z",
-    "modified": "2023-04-18T20:56:05.172Z",
+    "modified": "2023-04-21T01:06:39.836Z",
     "headers": [],
     "params": [],
-    "tests": []
+    "tests": [
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "equal",
+        "value": "[{\"name\":\"[\",\"open_time\":\"]\"}]"
+      }
+    ]
   },
   {
     "_id": "4e3072e6-ce30-4ad6-a8c3-264e54c5264b",
@@ -254,10 +261,17 @@
     "method": "GET",
     "sortNum": 30000,
     "created": "2023-04-20T19:46:54.709Z",
-    "modified": "2023-04-20T19:47:33.005Z",
+    "modified": "2023-04-21T01:07:34.462Z",
     "headers": [],
     "params": [],
-    "tests": []
+    "tests": [
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "equal",
+        "value": "[{\"menu_id\":4,\"name\":\"Value Menu\"},{\"menu_id\":9,\"name\":\"Gluten Free\"}]"
+      }
+    ]
   },
   {
     "_id": "b524a619-3ddd-423b-8e00-1955dab7e776",
@@ -268,14 +282,22 @@
     "method": "POST",
     "sortNum": 40000,
     "created": "2023-04-20T20:09:12.510Z",
-    "modified": "2023-04-20T20:17:39.757Z",
+    "modified": "2023-04-21T01:17:17.822Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n  \"name\": \"Dinner Menu\",\n  \"menu_id\": \"31\",\n  \"restaurant_id\": 2\n}"
+      "raw": "{\n  \"name\": \"Dinner Menu\",\n  \"menu_id\": \"31\",\n  \"restaurant_id\": 2\n}",
+      "form": []
     },
-    "tests": []
+    "tests": [
+      {
+        "type": "Content-Type",
+        "custom": "",
+        "action": "equal",
+        "value": "text/html; charset=utf-8"
+      }
+    ]
   },
   {
     "_id": "0de7a2e9-ea7b-4ecd-8c8f-dc79eaeab3b0",
@@ -338,7 +360,7 @@
     "method": "POST",
     "sortNum": 30000,
     "created": "2023-04-20T21:53:06.276Z",
-    "modified": "2023-04-20T21:53:36.283Z",
+    "modified": "2023-04-21T01:08:03.706Z",
     "headers": [],
     "params": [],
     "body": {
@@ -346,35 +368,80 @@
       "raw": "{\n  \"name\": \"Appetizer Menu\",\n  \"menu_id\": \"25\",\n  \"restaurant_id\": 3\n}",
       "form": []
     },
-    "tests": []
+    "tests": [
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "equal",
+        "value": "Success"
+      }
+    ]
   },
   {
     "_id": "74587dd6-2823-42ac-ba53-48d719feec70",
     "colId": "5350c703-7d7d-4fd3-bb0b-d49ff91d4561",
     "containerId": "",
     "name": "TestDeleteProduct",
-    "url": "localhost:8001/r/restaurants/1/menu/1/product/1 ",
+    "url": "localhost:8001/r/restaurants/1/menu/1/product/1",
     "method": "DELETE",
     "sortNum": 60000,
     "created": "2023-04-20T22:29:24.886Z",
-    "modified": "2023-04-20T22:29:30.006Z",
+    "modified": "2023-04-21T01:12:22.699Z",
     "headers": [],
     "params": [],
-    "tests": []
+    "tests": [
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "equal",
+        "value": "Success"
+      },
+      {
+        "type": "res-code",
+        "custom": "",
+        "action": "equal",
+        "value": "200"
+      },
+      {
+        "type": "Content-Type",
+        "custom": "",
+        "action": "equal",
+        "value": "text/html; charset=utf-8"
+      }
+    ]
   },
   {
     "_id": "4eb72945-b9ba-4aca-aef2-72855f4b6320",
     "colId": "5350c703-7d7d-4fd3-bb0b-d49ff91d4561",
     "containerId": "",
     "name": "TestDeleteProduct2",
-    "url": "localhost:8001/r/restaurants/2/menu/1/product/1 ",
+    "url": "localhost:8001/r/restaurants/2/menu/1/product/1",
     "method": "DELETE",
     "sortNum": 70000,
     "created": "2023-04-20T22:29:56.012Z",
-    "modified": "2023-04-20T22:30:07.878Z",
+    "modified": "2023-04-21T01:13:02.935Z",
     "headers": [],
     "params": [],
-    "tests": []
+    "tests": [
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "equal",
+        "value": "Success"
+      },
+      {
+        "type": "Content-Type",
+        "custom": "",
+        "action": "equal",
+        "value": "text/html; charset=utf-8"
+      },
+      {
+        "type": "res-code",
+        "custom": "",
+        "action": "equal",
+        "value": "200"
+      }
+    ]
   },
   {
     "_id": "7be3fdc5-0dec-4005-bffe-fa8f2afb8829",
@@ -385,10 +452,29 @@
     "method": "DELETE",
     "sortNum": 80000,
     "created": "2023-04-20T22:30:59.538Z",
-    "modified": "2023-04-20T22:31:29.937Z",
+    "modified": "2023-04-21T01:13:52.432Z",
     "headers": [],
     "params": [],
-    "tests": []
+    "tests": [
+      {
+        "type": "res-code",
+        "custom": "",
+        "action": "equal",
+        "value": "200"
+      },
+      {
+        "type": "Content-Type",
+        "custom": "",
+        "action": "equal",
+        "value": "text/html; charset=utf-8"
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "equal",
+        "value": "Success"
+      }
+    ]
   },
   {
     "_id": "3c359524-6097-4c4b-a0d3-5d421c0f3945",
@@ -399,10 +485,29 @@
     "method": "DELETE",
     "sortNum": 90000,
     "created": "2023-04-20T22:32:44.726Z",
-    "modified": "2023-04-20T22:33:08.712Z",
+    "modified": "2023-04-21T01:14:40.228Z",
     "headers": [],
     "params": [],
-    "tests": []
+    "tests": [
+      {
+        "type": "res-code",
+        "custom": "",
+        "action": "equal",
+        "value": "200"
+      },
+      {
+        "type": "Content-Type",
+        "custom": "",
+        "action": "equal",
+        "value": "text/html; charset=utf-8"
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "equal",
+        "value": "Success"
+      }
+    ]
   },
   {
     "_id": "daa6dc9b-a8b2-4221-bc03-01c12a1e6777",
@@ -413,7 +518,7 @@
     "method": "POST",
     "sortNum": 100000,
     "created": "2023-04-20T22:34:23.355Z",
-    "modified": "2023-04-20T22:37:05.206Z",
+    "modified": "2023-04-21T01:17:06.227Z",
     "headers": [],
     "params": [],
     "body": {
@@ -421,7 +526,14 @@
       "raw": "{\n  \"name\": \"Truffle Fries\",\n  \"product_id\": 30,\n  \"restaurant_id\": 1,\n  \"description\": \"truffle fries\",\n  \"price\": 5.99,\n  \"menu_id\": 2,\n  \"category_id\": 1\n}",
       "form": []
     },
-    "tests": []
+    "tests": [
+      {
+        "type": "Content-Type",
+        "custom": "",
+        "action": "equal",
+        "value": "text/html; charset=utf-8"
+      }
+    ]
   },
   {
     "_id": "613a8e18-b61e-4d74-ab0f-943695f61b7b",
@@ -432,15 +544,22 @@
     "method": "POST",
     "sortNum": 110000,
     "created": "2023-04-20T22:44:00.348Z",
-    "modified": "2023-04-20T22:44:57.399Z",
+    "modified": "2023-04-21T01:16:47.983Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n  \"name\": \"Cheese Fries\",\n  \"product_id\": 31,\n  \"restaurant_id\": 1,\n  \"description\": \"cheesy fries\",\n  \"price\": 7.99,\n  \"menu_id\": 2,\n  \"category_id\": 1\n}",
+      "raw": "{\n  \"name\": \"Cheese Fries\",\n  \"restaurant_id\": 1,\n  \"description\": \"cheesy fries\",\n  \"price\": 7.99,\n  \"menu_id\": 2,\n  \"category_id\": 1\n}",
       "form": []
     },
-    "tests": []
+    "tests": [
+      {
+        "type": "res-code",
+        "custom": "",
+        "action": "equal",
+        "value": "200"
+      }
+    ]
   },
   {
     "_id": "8855e97a-72fe-4292-8451-2ecf1a2986a3",
@@ -451,21 +570,34 @@
     "method": "GET",
     "sortNum": 130000,
     "created": "2023-04-20T22:46:47.047Z",
-    "modified": "2023-04-20T22:47:11.715Z",
+    "modified": "2023-04-21T01:19:06.985Z",
     "headers": [],
     "params": [],
-    "tests": []
+    "tests": [
+      {
+        "type": "res-code",
+        "custom": "",
+        "action": "equal",
+        "value": "200"
+      },
+      {
+        "type": "Content-Type",
+        "custom": "",
+        "action": "equal",
+        "value": "application/json"
+      }
+    ]
   },
   {
     "_id": "c16ccc19-a74f-44e4-ac22-9136984a486a",
     "colId": "5350c703-7d7d-4fd3-bb0b-d49ff91d4561",
     "containerId": "",
     "name": "TestGetRestaurantsInCategory",
-    "url": "localhost:8001/r/restaurants/Fast Food",
+    "url": "localhost:8001/r/restaurants/FastFood",
     "method": "GET",
     "sortNum": 140000,
     "created": "2023-04-20T22:47:42.778Z",
-    "modified": "2023-04-20T22:51:11.510Z",
+    "modified": "2023-04-21T01:19:38.164Z",
     "headers": [],
     "params": [],
     "tests": []
@@ -479,7 +611,7 @@
     "method": "PUT",
     "sortNum": 150000,
     "created": "2023-04-20T22:53:14.923Z",
-    "modified": "2023-04-20T22:54:39.994Z",
+    "modified": "2023-04-21T01:20:14.828Z",
     "headers": [],
     "params": [],
     "body": {
@@ -487,7 +619,20 @@
       "raw": "{\n  \"name\": \"Full Menu\"\n}",
       "form": []
     },
-    "tests": []
+    "tests": [
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "equal",
+        "value": "Success"
+      },
+      {
+        "type": "res-code",
+        "custom": "",
+        "action": "equal",
+        "value": "200"
+      }
+    ]
   },
   {
     "_id": "9f5180fa-9ae3-49d4-a297-434b3237bc18",
@@ -498,7 +643,7 @@
     "method": "PUT",
     "sortNum": 160000,
     "created": "2023-04-20T22:55:23.813Z",
-    "modified": "2023-04-20T22:56:25.159Z",
+    "modified": "2023-04-21T01:20:35.658Z",
     "headers": [],
     "params": [],
     "body": {
@@ -506,7 +651,20 @@
       "raw": "{\n  \"name\": \"Full Menu\"\n}",
       "form": []
     },
-    "tests": []
+    "tests": [
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "equal",
+        "value": "Success"
+      },
+      {
+        "type": "res-code",
+        "custom": "",
+        "action": "equal",
+        "value": "200"
+      }
+    ]
   },
   {
     "_id": "690317d5-f58b-4222-9407-33b562dcaf1e",
@@ -517,22 +675,23 @@
     "method": "DELETE",
     "sortNum": 170000,
     "created": "2023-04-20T23:29:31.065Z",
-    "modified": "2023-04-20T23:30:35.766Z",
+    "modified": "2023-04-21T01:21:00.489Z",
     "headers": [],
     "params": [],
-    "tests": []
-  },
-  {
-    "_id": "f1eb051c-e04c-4349-aca3-42245fc3b37b",
-    "colId": "5350c703-7d7d-4fd3-bb0b-d49ff91d4561",
-    "containerId": "",
-    "name": "TestUpdateRestaurant",
-    "url": "",
-    "method": "GET",
-    "sortNum": 180000,
-    "created": "2023-04-21T00:17:11.929Z",
-    "modified": "2023-04-21T00:17:11.929Z",
-    "headers": []
+    "tests": [
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "equal",
+        "value": "Success"
+      },
+      {
+        "type": "res-code",
+        "custom": "",
+        "action": "equal",
+        "value": "200"
+      }
+    ]
   },
   {
     "_id": "9ee446e2-4cc9-4a60-9a16-6f3bdbff8fc8",
@@ -543,10 +702,23 @@
     "method": "GET",
     "sortNum": 190000,
     "created": "2023-04-21T00:20:13.522Z",
-    "modified": "2023-04-21T00:20:57.909Z",
+    "modified": "2023-04-21T01:21:37.363Z",
     "headers": [],
     "params": [],
-    "tests": []
+    "tests": [
+      {
+        "type": "res-code",
+        "custom": "",
+        "action": "equal",
+        "value": "200"
+      },
+      {
+        "type": "Content-Type",
+        "custom": "",
+        "action": "equal",
+        "value": "application/json"
+      }
+    ]
   },
   {
     "_id": "c7871b41-5284-4fef-ba87-60fe101d2f22",
@@ -557,10 +729,23 @@
     "method": "GET",
     "sortNum": 200000,
     "created": "2023-04-21T00:24:00.049Z",
-    "modified": "2023-04-21T00:24:13.579Z",
+    "modified": "2023-04-21T01:22:01.863Z",
     "headers": [],
     "params": [],
-    "tests": []
+    "tests": [
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "equal",
+        "value": "[]"
+      },
+      {
+        "type": "res-code",
+        "custom": "",
+        "action": "equal",
+        "value": "200"
+      }
+    ]
   },
   {
     "_id": "f1a82f15-85d5-415c-bc63-ec7784ce2be5",
@@ -571,10 +756,23 @@
     "method": "PUT",
     "sortNum": 210000,
     "created": "2023-04-21T00:25:32.838Z",
-    "modified": "2023-04-21T00:26:14.180Z",
+    "modified": "2023-04-21T01:22:22.341Z",
     "headers": [],
     "params": [],
-    "tests": []
+    "tests": [
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "equal",
+        "value": "Success"
+      },
+      {
+        "type": "res-code",
+        "custom": "",
+        "action": "equal",
+        "value": "200"
+      }
+    ]
   },
   {
     "_id": "79b02612-cbad-43e0-8a69-26abf0f4e5dc",
@@ -600,13 +798,26 @@
     "colId": "5350c703-7d7d-4fd3-bb0b-d49ff91d4561",
     "containerId": "",
     "name": "TestGetBuildings",
-    "url": "localhost:8001/b//buildings",
+    "url": "localhost:8001/b/buildings",
     "method": "GET",
     "sortNum": 230000,
     "created": "2023-04-21T00:45:01.929Z",
-    "modified": "2023-04-21T00:45:05.252Z",
+    "modified": "2023-04-21T01:22:51.584Z",
     "headers": [],
     "params": [],
-    "tests": []
+    "tests": [
+      {
+        "type": "res-code",
+        "custom": "",
+        "action": "equal",
+        "value": "200"
+      },
+      {
+        "type": "Content-Type",
+        "custom": "",
+        "action": "equal",
+        "value": "application/json"
+      }
+    ]
   }
 ]
