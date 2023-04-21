@@ -95,10 +95,10 @@ def delete_student(studentID):
 def get_orders():
     cursor = db.get_db().cursor()
 
-    query = """SELECT order_id, date, status, student_id, name, first_name, last_name, 
+    query = """SELECT order_id, date, status, student_id, name, first_name, last_name,
     subtotal, tip, fee, tax, driver_rating, res_rating FROM Orders
-    JOIN Driver D on D.driver_id = Orders.driver_id
-    JOIN Restaurant R on Orders.restaurant_id = R.restaurant_id"""
+    LEFT OUTER JOIN Driver D on D.driver_id = Orders.driver_id
+    LEFT OUTER JOIN Restaurant R on Orders.restaurant_id = R.restaurant_id"""
 
     cursor.execute(query)
     row_headers = [x[0] for x in cursor.description]
