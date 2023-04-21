@@ -540,5 +540,78 @@
     "headers": [],
     "params": [],
     "tests": []
+  },
+  {
+    "_id": "f1eb051c-e04c-4349-aca3-42245fc3b37b",
+    "colId": "5350c703-7d7d-4fd3-bb0b-d49ff91d4561",
+    "containerId": "",
+    "name": "TestUpdateRestaurant",
+    "url": "",
+    "method": "GET",
+    "sortNum": 180000,
+    "created": "2023-04-21T00:17:11.929Z",
+    "modified": "2023-04-21T00:17:11.929Z",
+    "headers": []
+  },
+  {
+    "_id": "9ee446e2-4cc9-4a60-9a16-6f3bdbff8fc8",
+    "colId": "5350c703-7d7d-4fd3-bb0b-d49ff91d4561",
+    "containerId": "",
+    "name": "TestGetProducts",
+    "url": "localhost:8001/r/restaurant/1/products",
+    "method": "GET",
+    "sortNum": 190000,
+    "created": "2023-04-21T00:20:13.522Z",
+    "modified": "2023-04-21T00:20:57.909Z",
+    "headers": [],
+    "params": [],
+    "tests": []
+  },
+  {
+    "_id": "c7871b41-5284-4fef-ba87-60fe101d2f22",
+    "colId": "5350c703-7d7d-4fd3-bb0b-d49ff91d4561",
+    "containerId": "",
+    "name": "TestGetOrders",
+    "url": "localhost:8001/r/restaurants/1/orders",
+    "method": "GET",
+    "sortNum": 200000,
+    "created": "2023-04-21T00:24:00.049Z",
+    "modified": "2023-04-21T00:24:13.579Z",
+    "headers": [],
+    "params": [],
+    "tests": []
+  },
+  {
+    "_id": "f1a82f15-85d5-415c-bc63-ec7784ce2be5",
+    "colId": "5350c703-7d7d-4fd3-bb0b-d49ff91d4561",
+    "containerId": "",
+    "name": "TestAcceptOrder",
+    "url": "localhost:8001/r/restaurant/1/orders/1",
+    "method": "PUT",
+    "sortNum": 210000,
+    "created": "2023-04-21T00:25:32.838Z",
+    "modified": "2023-04-21T00:26:14.180Z",
+    "headers": [],
+    "params": [],
+    "tests": []
+  },
+  {
+    "_id": "79b02612-cbad-43e0-8a69-26abf0f4e5dc",
+    "colId": "5350c703-7d7d-4fd3-bb0b-d49ff91d4561",
+    "containerId": "",
+    "name": "TestUpdateRestaurantInfo",
+    "url": "localhost:8001/r/restaurants/1",
+    "method": "PUT",
+    "sortNum": 220000,
+    "created": "2023-04-21T00:28:28.117Z",
+    "modified": "2023-04-21T00:30:21.202Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"name\": \"Chipotle\",\n  \"category_id\": 10,\n  \"building_id\": 15\n}",
+      "form": []
+    },
+    "tests": []
   }
 ]
