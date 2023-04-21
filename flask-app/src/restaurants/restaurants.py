@@ -209,7 +209,7 @@ def update_menu(restaurant_id, menu_id):
 # Deletes a menu
 @restaurants.route('/restaurants/<restaurant_id>/menu/<menu_id>', methods=['DELETE'])
 def delete_menu(restaurant_id, menu_id):
-    query = f""""DELETE FROM Menu WHERE restaurant_id = '{restaurant_id}' AND menu_id = '{menu_id}'"""
+    query = f"DELETE FROM Menu WHERE restaurant_id = '{restaurant_id}' AND menu_id = '{menu_id}'"
     cursor = db.get_db().cursor()
     cursor.execute(query)
     db.get_db().commit()
@@ -219,7 +219,7 @@ def delete_menu(restaurant_id, menu_id):
 # Deletes a product
 @restaurants.route('/restaurants/<restaurant_id>/menu/<menu_id>/product/<product_id>', methods=['DELETE'])
 def delete_product(restaurant_id, menu_id, product_id):
-    query = f"""DELETE FROM Product WHERE menu_id = {menu_id} AND product_id = {product_id} AND restaurant_id = {restaurant_id}"""
+    query = f"DELETE FROM Product WHERE menu_id = '{menu_id}' AND product_id = '{product_id}' AND restaurant_id = '{restaurant_id}'"
     cursor = db.get_db().cursor()
     cursor.execute(query)
     db.get_db().commit()
@@ -236,8 +236,7 @@ def add_product_to_menu(restaurant_id, menu_id):
     description = the_data['description']
     price = the_data['price']
     category_id = the_data['category_id']
-
-    query = f"""INSERT INTO Product (name, restaurant_id, description, price, menu_id, category_id) VALUES ('{name}', {restaurant_id}, '{description}', {price}, {menu_id}, {category_id})"""
+    query = f"INSERT INTO Product (name, product_id, restaurant_id, description, price, menu_id, category_id) VALUES ('{name}', '{product_id}', '{restaurant_id}', '{description}', '{price}', '{menu_id}', '{category_id}')"
     current_app.logger.info(query)
     cursor = db.get_db().cursor()
     # print(query)
@@ -245,6 +244,7 @@ def add_product_to_menu(restaurant_id, menu_id):
     db.get_db().commit()
 
     return "Success"
+
 
 # Returns a list of all restaurants that belong to a specific category
 @restaurants.route('/restaurants/<category>', methods=['GET'])
@@ -261,6 +261,7 @@ def get_restaurants_by_category(category):
     the_response.status_code = 200
     the_response.mimetype = 'application/json'
     return the_response
+
 
 # Returns a list of all possible categories
 @restaurants.route('/restaurants/categories', methods=['GET'])
