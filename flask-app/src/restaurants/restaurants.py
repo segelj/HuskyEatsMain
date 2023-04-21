@@ -236,6 +236,7 @@ def add_product_to_menu(restaurant_id, menu_id):
     description = the_data['description']
     price = the_data['price']
     category_id = the_data['category_id']
+    product_id = the_data['product_id']
     query = f"INSERT INTO Product (name, product_id, restaurant_id, description, price, menu_id, category_id) VALUES ('{name}', '{product_id}', '{restaurant_id}', '{description}', '{price}', '{menu_id}', '{category_id}')"
     current_app.logger.info(query)
     cursor = db.get_db().cursor()
