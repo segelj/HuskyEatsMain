@@ -290,3 +290,44 @@ def get_restaurant_categories():
         json_data.append(dict(zip(column_headers, row)))
 
     return jsonify(json_data)
+
+# Get all orders for the given restaurant that are pending approval
+@restaurants.route('/restaurants/<id>/orders', methods=['GET'])
+def get_restaurant_orders(id):
+    # get a cursor object from the database
+    cursor = db.get_db().cursor()
+
+    query = f"""SELECT * FROM Orders
+    WHERE restaurant_id = {id} AND status = 'pending'"""
+
+    # use cursor to query the database for a list of products
+    cursor.execute(query)
+
+    # grab the column headers from the returned data
+    column_headers = [x[0] for x in cursor.description]
+
+    # create an empty dictionary object to use in
+    # putting column headers together with data
+    json_data = []
+
+    # fetch all the data from the cursor
+    theData = cursor.fetchall()
+
+    # for each of the rows, zip the data elements together with
+    # the column headers.
+    for row in theData:
+        json_data.append(dict(zip(column_headers, row)))
+
+    return jsonify(json_data)
+
+# Accepts a given order
+@restaurants.route('/restaurant/<restaurant_id>/orders/<order_id>', methods=['PUT'])
+def accept_order(restaurant_id, order_id):
+    query = f"""UPDATE Orders Set status = 'accepted' WHERE restaurant_id = {restaurant_id} AND order_id = {order_id}"""
+    current_app.logger.info(query)
+
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+    db.get_db().commit()
+
+    return "Success"
